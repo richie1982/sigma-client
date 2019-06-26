@@ -12,6 +12,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react'
+import { logIn } from '../services/api'
+import { connect } from 'react-redux'
+import * as actions from '../actions'
+// import { Link } from 'react-router-dom'
 
 
 const useStyles = makeStyles(theme => ({
@@ -43,10 +47,29 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function LogInForm() {
-  const [ email, setEmail ] = useState("")
-  const [ password, setPassword ] = useState("")
+export function LogInForm(props) {
+
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
+
+  const handleLogIn = (event) => {
+    event.preventDefault()
+    logIn(email, password)
+      .then(data => {
+        if (data.error) {
+          alert(data.error)
+        } else {
+          props.getUser(data)
+          localStorage.setItem('token', data.token)
+          props.history.push('/landing')
+        }
+      })
+    setEmail('')
+    setPassword('')
+  }
+  
   const classes = useStyles();
+  console.log('login', props)
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -72,7 +95,7 @@ export default function LogInForm() {
               autoComplete="email"
               autoFocus
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -97,6 +120,7 @@ export default function LogInForm() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={e => handleLogIn(e)}
             >
               Sign In
             </Button>
@@ -118,3 +142,5 @@ export default function LogInForm() {
     </Grid>
   );
 }
+
+export default connect(null, actions)(LogInForm);

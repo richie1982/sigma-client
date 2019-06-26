@@ -4,17 +4,23 @@ import { withRouter, Route, Switch } from 'react-router-dom'
 import * as actions from './actions'
 import HomePage from './components/HomePage';
 import LogInForm from './components/LogInForm'
+import { UserPage } from './components/UserPage';
 
 
 export class App extends Component {
 
-  render () {
+  handleSignOut = () => {
+    this.props.signOut()
+    localStorage.removeItem('token')
+  }
 
+  render () {
     return (
       <div>
-      <Switch>
+        <Switch>
           <Route exact path='/' component={props => <HomePage  {...props}/>}/>
-          <Route path='/log_in' component={props => <LogInForm {...props}/>}/> 
+          <Route path='/log_in' component={props => <LogInForm {...props} />}/>
+          <Route path='/landing' component={props => <UserPage {...props}/>}/>
         </Switch>
       </div>
     );

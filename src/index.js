@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import rootReducer from './reducers';
 import { BrowserRouter  as Router } from 'react-router-dom' 
-import LogInForm from './components/LogInForm';
 
 const store = createStore(
     rootReducer,
@@ -13,9 +12,9 @@ const store = createStore(
 )
 
 ReactDOM.render(
-        <Provider store={store}>
-    <Router>
+    <Provider store={store}>
+        <Router>
             <App/>  
-    </Router>
-        </Provider>,
+        </Router>
+     </Provider>,
     document.getElementById('root'));
