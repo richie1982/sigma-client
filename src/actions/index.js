@@ -2,8 +2,8 @@ export function getUser(user) {
     return { type: 'GET_USER', payload: user }
 }
 
-export function signOut(id) {
-    return { type: 'SIGN_OUT', id }
+export function signOut() {
+    return { type: 'SIGN_OUT' }
 }
 
 export function getInventory(data) {
