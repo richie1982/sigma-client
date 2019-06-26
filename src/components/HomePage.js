@@ -1,10 +1,12 @@
 import React from 'react'
 import { useState } from 'react'
+import NavBar from './NavBar'
 
 export const HomePage = props => {
     return (
         <div>
-            Hello World
+        <NavBar/>
+            <p>Hello World</p>
         </div>
     )
 }

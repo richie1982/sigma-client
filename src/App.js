@@ -4,11 +4,23 @@ import { withRouter, Route, Switch } from 'react-router-dom'
 import * as actions from './actions'
 import HomePage from './components/HomePage';
 import LogInForm from './components/LogInForm'
-import { UserPage } from './components/UserPage';
-import { validate } from './services/api';
+import UserPage from './components/UserPage';
+import { validate, fetchInventory } from './services/api';
+
 
 
 export class App extends Component {
+
+  setInventory = () => {
+    fetchInventory()
+        .then(data => {
+            if (data.error) {
+                alert(data.error)
+            } else {
+                this.props.getInventory(data)
+            }
+        })  
+  }
 
   handleSignOut = () => {
     this.props.signOut()
@@ -26,11 +38,12 @@ export class App extends Component {
             this.props.getUser(data)
             localStorage.setItem('token', data.token)
             this.props.history.push('/landing')
+            this.setInventory()
           }
         })
     }
   }
-
+  
   render () {
     return (
       <div>
