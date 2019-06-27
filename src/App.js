@@ -7,7 +7,12 @@ import LogInForm from './components/LogInForm'
 import UserPage from './components/UserPage';
 import { validate, fetchInventory } from './services/api';
 
-
+const pageStyle = {
+  backgroundColor: 'grey',
+  height: "600px",
+  margin: "0",
+  padding: "0"
+}
 
 export class App extends Component {
 
@@ -50,7 +55,7 @@ export class App extends Component {
         <Switch>
           <Route exact path='/' component={props => <HomePage  {...props}/>}/>
           <Route path='/log_in' component={props => <LogInForm {...props} />}/>
-          <Route path='/landing' component={props => <UserPage {...props} handleSignOut={this.handleSignOut}/>}/>
+          <Route path='/landing' component={props => <UserPage handleSignOut={this.handleSignOut}/>}/>
         </Switch>
       </div>
     );

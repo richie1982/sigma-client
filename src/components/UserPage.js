@@ -3,13 +3,20 @@ import { connect } from 'react-redux'
 import * as actions from '../actions'
 import UserTable from './UserTable'
 
+const pageStyle = {
+    backgroundColor: '#C4C5C6',
+    height: "600px",
+    margin: "0",
+    padding: "0"
+}
+
+
 
 
 export const UserPage = (props) => {
 
-
     return (
-        <div>
+        <div style={pageStyle}>
             {props.user &&
                 <h2>Welcome {props.user.first_name}</h2>}
             <button
@@ -18,7 +25,9 @@ export const UserPage = (props) => {
             >
             Sign Out
             </button>
+            <div>
             <UserTable/>
+            </div>
         </div>
     )
 }
