@@ -5,9 +5,6 @@ import UserTable from './UserTable'
 
 const pageStyle = {
     backgroundColor: '#C4C5C6',
-    height: "600px",
-    margin: "0",
-    padding: "0"
 }
 
 
@@ -19,12 +16,6 @@ export const UserPage = (props) => {
         <div style={pageStyle}>
             {props.user &&
                 <h2>Welcome {props.user.first_name}</h2>}
-            <button
-            type="submit"
-            onClick={props.handleSignOut}
-            >
-            Sign Out
-            </button>
             <div>
             <UserTable/>
             </div>

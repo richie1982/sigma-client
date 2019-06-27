@@ -9,3 +9,7 @@ export function signOut() {
 export function getInventory(data) {
     return { type: 'GET_INVENTORY', payload: data }
 }
+
+export function getCompanies(data) {
+    return { type: 'GET_COMPANIES', payload: data }
+}

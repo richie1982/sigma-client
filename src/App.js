@@ -5,7 +5,8 @@ import * as actions from './actions'
 import HomePage from './components/HomePage';
 import LogInForm from './components/LogInForm'
 import UserPage from './components/UserPage';
-import { validate, fetchInventory } from './services/api';
+import { validate, fetchInventory, fetchCompany } from './services/api';
+import NavBar from './components/NavBar'
 
 const pageStyle = {
   backgroundColor: 'grey',
@@ -27,15 +28,19 @@ export class App extends Component {
         })  
   }
 
-  handleSignOut = () => {
-    this.props.signOut()
-    localStorage.removeItem('token')
-    this.props.history.push('/')
+  importCompanyData = () => {
+    fetchCompany()
+      .then(data => {
+        if (data.error) {
+          alert(data.error)
+        } else {
+          this.props.getCompanies(data)
+        }
+      })
   }
 
-  componentDidMount() {
-    if (localStorage.token) {
-      validate()
+  handleValidation = () => {
+    validate()
         .then(data => {
           if (data.error) {
             alert(data.error)
@@ -45,17 +50,30 @@ export class App extends Component {
             this.props.history.push('/landing')
             this.setInventory()
           }
-        })
+        })   
+  }
+
+  handleSignOut = () => {
+    this.props.signOut()
+    localStorage.removeItem('token')
+    this.props.history.push('/')
+  }
+
+  componentDidMount() {
+    // this.importCompanyData()
+    if (localStorage.token) {
+      this.handleValidation()
     }
   }
   
   render () {
     return (
       <div>
+        <NavBar handleSignOut={this.handleSignOut}/>
         <Switch>
           <Route exact path='/' component={props => <HomePage  {...props}/>}/>
           <Route path='/log_in' component={props => <LogInForm {...props} />}/>
-          <Route path='/landing' component={props => <UserPage handleSignOut={this.handleSignOut}/>}/>
+          <Route path='/landing' component={props => <UserPage {...props}/>}/>
         </Switch>
       </div>
     );

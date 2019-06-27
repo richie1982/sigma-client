@@ -20,9 +20,19 @@ const inventoryReducer = (state = [], action) => {
     }
 }
 
+const companyReducer = (state = [], action) => {
+    switch(action.type) {
+        case "GET_COMPANIES":
+            return [...state, ...action.payload]
+        default:
+            return state
+}
+}
+
 const rootReducer = combineReducers({
     user: userReducer,
-    inventory: inventoryReducer
+    inventory: inventoryReducer,
+    companies: companyReducer
 })
 
 export default rootReducer
