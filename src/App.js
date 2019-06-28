@@ -60,7 +60,7 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    this.importCompanyData()
+    // this.importCompanyData()
     if (localStorage.token) {
       this.handleValidation()
     }
