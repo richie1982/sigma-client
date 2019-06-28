@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,6 +10,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as actions from '../actions'
+import _ from 'lodash'
 
 
 const useStyles = makeStyles(theme => ({
@@ -73,6 +74,18 @@ const buttonStyle = {
 const NavBar = (props) =>  {
 
   const classes = useStyles();
+  const [ searchParam, setSearchParam ] = useState("")
+  
+  const searchHandle = (e) => {
+    setSearchParam(e.target.value)
+  }
+  
+  const handleSearch = (e) => {
+    e.preventDefault()
+    props.updateSearch(searchParam)
+    setSearchParam("")
+    // props.clearSearch()
+  }
 
   return (
     <div className={classes.root}>
@@ -96,11 +109,13 @@ const NavBar = (props) =>  {
               }
           </Typography>
           {props.user &&
-            <div className={classes.search}>
+            <form className={classes.search} onSubmit={handleSearch}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
               <InputBase
+                value={searchParam}
+                onChange={searchHandle}
                 placeholder="Search…"
                 classes={{
                   root: classes.inputRoot,
@@ -108,7 +123,7 @@ const NavBar = (props) =>  {
                 }}
                 inputProps={{ 'aria-label': 'Search' }}
               />
-            </div>
+            </form>
           }
         </Toolbar>
       </AppBar>
@@ -118,7 +133,10 @@ const NavBar = (props) =>  {
 
 
 const mapStateToProps = state => ({
-    user: state.user
+    searchTerm: state.searchTerm,
+    user: state.user,
+    // companies: state.companies
+    companies: state.companies.length > 0 && state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
 })
   
 

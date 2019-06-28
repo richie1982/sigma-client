@@ -60,7 +60,7 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    // this.importCompanyData()
+    this.importCompanyData()
     if (localStorage.token) {
       this.handleValidation()
     }
@@ -82,7 +82,8 @@ export class App extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  inventory: state.inventory
+  inventory: state.inventory,
+  companies: state.companies.length > 0 && state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
 })
 
 export default withRouter(connect(mapStateToProps, actions)(App));
