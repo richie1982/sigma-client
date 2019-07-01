@@ -1,62 +1,5 @@
-// import React, { useState }from 'react'
-// import { makeStyles } from '@material-ui/core/styles';
-// import Table from '@material-ui/core/Table';
-// import TableBody from '@material-ui/core/TableBody';
-// import TableCell from '@material-ui/core/TableCell';
-// import TableHead from '@material-ui/core/TableHead';
-// import TableRow from '@material-ui/core/TableRow';
-// import Paper from '@material-ui/core/Paper';
-
-// const useStyles = makeStyles(theme => ({
-//   root: {
-//     width: '100%',
-//     overflowX: 'auto',
-//   },
-//   table: {
-//     minWidth: 450,
-//   },
-// }));
-
-// function createData(name, symbol) {
-//   return { name, symbol };
-// }
-
-
-// const DataTable = (props) => {
-  
-//   const rows = [
-//     props.companies.map(company => createData(company.name, company.symbol)),
-//   ];
-
-
-//   const classes = useStyles();
-//   return (
-//     <Paper className={classes.root}>
-//       <Table className={classes.table}>
-//         <TableHead>
-//           <TableRow>
-//             <TableCell>Name</TableCell>
-//             <TableCell align="right">Symbol</TableCell>
-//           </TableRow>
-//         </TableHead>
-//         <TableBody>
-//           {rows[0].map((row, index) => (
-//             <TableRow key={index}>
-//               <TableCell component="th" scope="row">
-//                 {row.name}
-//               </TableCell>
-//               <TableCell align="right">{row.symbol}</TableCell>
-//             </TableRow>
-//           ))}
-//         </TableBody>
-//       </Table>
-//     </Paper>
-//   );
-// }
-
 import React from 'react';
 import { connect } from 'react-redux'
-import * as actions from '../actions'
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -138,33 +81,29 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, symbol) {
-  return { name, symbol };
+function createData(title, uuid, published) {
+  return { title, uuid, published };
 }
 
 const useStyles2 = makeStyles(theme => ({
   root: {
     width: '100%',
-    height: '100%'
     // marginTop: theme.spacing(3),
   },
   table: {
-    minWidth: 500,
+    minWidth: "100%",
   },
   tableWrapper: {
     overflowX: 'auto',
   },
 }));
 
-const DataTable = (props) => {
+const NewsTable = (props) => {
 
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const rows = [
-    props.companies.map(company => createData(company.name, company.symbol)),
-  ]
+  const rows = props.news.map(story => createData(story.title, story.uuid, story.published)).sort((a, b) => (a.published < b.published ? 1 : -1));
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -175,20 +114,16 @@ const DataTable = (props) => {
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
   }
-
-  // rows[0].map(c => console.log(c))
-
   return (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
         <Table className={classes.table}>
           <TableBody>
-            {rows[0].slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
-              <TableRow key={row.symbol}>
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
+              <TableRow key={row.uuid}>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row.title}
                 </TableCell>
-                <TableCell align="left">{row.symbol}</TableCell>
               </TableRow>
             ))}
 
@@ -223,8 +158,7 @@ const DataTable = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-  companies: state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
+    news: state.newsData
 })
 
-export default connect(mapStateToProps, actions)(DataTable)
-
+export default connect(mapStateToProps)(NewsTable)

@@ -15,7 +15,6 @@ export function getCompanies(data) {
 }
 
 export function updateSearch(searchTerm) {
-    debugger
     return { type: 'UPDATE_SEARCH', payload: searchTerm }
 }
 
@@ -25,4 +24,12 @@ export function clearSearch() {
 
 export function filterCompanies(searchTerm) {
     return {type: 'FILTER_COMPANIES', payload: searchTerm }
+}
+
+export function getData(data) {
+    return { type: 'GET_DATA', payload: data }
+}
+
+export function getNews(data) {
+    return { type: 'GET_NEWS', payload: data }
 }

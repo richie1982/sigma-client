@@ -5,7 +5,7 @@ import * as actions from './actions'
 import HomePage from './components/HomePage';
 import LogInForm from './components/LogInForm'
 import UserPage from './components/UserPage';
-import { validate, fetchInventory, fetchCompany } from './services/api';
+import { validate, fetchInventory, fetchCompany, fetchData, fetchNews1 } from './services/api';
 import NavBar from './components/NavBar'
 
 const pageStyle = {
@@ -39,6 +39,29 @@ export class App extends Component {
       })
   }
 
+  importProductData = () => {
+    fetchData('A')
+      .then(data => {
+        if (data.error) {
+          alert(data.error)
+        } else {
+          this.props.getData(data)
+        }
+      })
+  }
+
+  importNewsData = () => {
+    fetchNews1()
+      .then(data => {
+        if (data.error) {
+          alert(data.error)
+        } else {
+          // console.log(data)
+          this.props.getNews(data.posts)
+        }
+      })
+  }
+
   handleValidation = () => {
     validate()
         .then(data => {
@@ -60,7 +83,9 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    // this.importCompanyData()
+    this.importNewsData()
+    this.importProductData()
+    this.importCompanyData()
     if (localStorage.token) {
       this.handleValidation()
     }
@@ -83,7 +108,7 @@ export class App extends Component {
 const mapStateToProps = (state) => ({
   user: state.user,
   inventory: state.inventory,
-  companies: state.companies.length > 0 && state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
+  companies: state.companies.length > 0 && state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase())),
 })
 
 export default withRouter(connect(mapStateToProps, actions)(App));

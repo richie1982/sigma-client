@@ -4,6 +4,7 @@ import GridLayout from 'react-grid-layout';
 import './UserTable.css';
 import DataTable from './DataTable'
 import Graph from './Graph';
+import NewsTable from './NewsTable';
 
 const boxStyle = {
     backgroundColor: "white",
@@ -29,14 +30,14 @@ class UserTable extends Component {
       return (
         <GridLayout className="layout" layout={layout} cols={12} width={1200} rowHeight={300}>
           <div key="a" style={boxStyle}>
-          <DataTable style={{width: "100%", height: "100%", position: 'absolute'}}/>
+            <DataTable style={{width: "100%", height: "100%", position: 'absolute'}}/>
           </div>
-
           <div key="b" style={boxStyle}>
-          <Graph/>
+            <Graph/>
           </div>
-
-          <div key="c" style={boxStyle}>c</div>
+          <div key="c" style={boxStyle}>
+            <NewsTable />
+          </div>
         </GridLayout>
       )
     }

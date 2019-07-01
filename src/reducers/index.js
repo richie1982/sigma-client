@@ -24,8 +24,6 @@ const companyReducer = (state = [], action) => {
     switch(action.type) {
         case "GET_COMPANIES":
             return [...state, ...action.payload]
-        // case 'FILTER_COMPANIES':
-        //     return state.filter(company => company.name.toLowerCase().includes(action.payload.toLowerCase()))
         default:
             return state
     }
@@ -42,11 +40,31 @@ const searchReducer = (state = "", action) => {
     }
 }
 
+const productDataReducer = (state = null, action) => {
+    switch(action.type) {
+        case 'GET_DATA':
+            return state = action.payload
+        default:
+            return state
+    }
+}
+
+const newsDataReducer = (state = [], action) => {
+    switch(action.type) {
+        case 'GET_NEWS':
+            return [...state, ...action.payload]
+        default:
+            return state
+    }
+}
+
 const rootReducer = combineReducers({
     user: userReducer,
     inventory: inventoryReducer,
     companies: companyReducer,
-    searchTerm: searchReducer
+    searchTerm: searchReducer,
+    productData: productDataReducer,
+    newsData: newsDataReducer
 })
 
 export default rootReducer
