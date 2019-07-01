@@ -38,6 +38,27 @@ export const signUp = (first_name, last_name, email, password) => {
     }).then(resp => resp.json())
 }
 
+export const saveProduct = (name, ticker) => {
+    return fetch(baseUrl, {
+        method: "POST",
+        headers: { "Content-Type": 'application/json' },
+        body: JSON.stringify({
+            name,
+            ticker
+        })
+    }).then(resp => resp.json)
+}
+
+export const deleteProduct = (id) => {
+    return fetch(baseUrl, {
+        method: "DELETE",
+        headers: { "Content-Type": 'application/json' },
+        body: JSON.stringify({
+            id
+        })
+    }).then(resp => resp.json())
+}
+
 export const validate = () => {
     return fetch(baseUrl + '/validate', {
         headers: { 'Authorisation': localStorage.token }

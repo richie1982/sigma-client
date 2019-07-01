@@ -15,6 +15,10 @@ const inventoryReducer = (state = [], action) => {
     switch(action.type) {
         case "GET_INVENTORY":
             return [...state, ...action.payload]
+        case 'ADD_INVENTORY':  
+            return [...state, ...action.payload] 
+        case "REMOVE_INVENTORY":
+            return state.filter(el => el.id !== action.id)
         default:
             return state
     }

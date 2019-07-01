@@ -10,6 +10,14 @@ export function getInventory(data) {
     return { type: 'GET_INVENTORY', payload: data }
 }
 
+export function addInventory(product) {
+    return { type: 'ADD_INVENTORY', payload: product }
+}
+
+export function removeInventory(id) {
+    return { type: 'REMOVE_INVENTORY', id }
+}
+
 export function getCompanies(data) {
     return { type: 'GET_COMPANIES', payload: data }
 }

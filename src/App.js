@@ -83,9 +83,9 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    this.importNewsData()
-    this.importProductData()
-    this.importCompanyData()
+    // this.importNewsData()
+    // this.importProductData()
+    // this.importCompanyData()
     if (localStorage.token) {
       this.handleValidation()
     }
