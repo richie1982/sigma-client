@@ -2,7 +2,6 @@ import React, { useState, useEffect  } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 import UserTable from './UserTable'
-// import Socket from './Socket';
 
 const pageStyle = {
     backgroundColor: '#C4C5C6',

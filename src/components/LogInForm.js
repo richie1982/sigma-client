@@ -15,7 +15,6 @@ import { useState } from 'react'
 import { logIn } from '../services/api'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
-// import { Link } from 'react-router-dom'
 
 
 const useStyles = makeStyles(theme => ({
@@ -131,7 +130,7 @@ export function LogInForm(props) {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/sign_up" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

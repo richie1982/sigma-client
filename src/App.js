@@ -7,6 +7,7 @@ import LogInForm from './components/LogInForm'
 import UserPage from './components/UserPage';
 import { validate, fetchInventory, fetchCompany, fetchData, fetchNews1 } from './services/api';
 import NavBar from './components/NavBar'
+import SignUpForm from './components/SignUpForm';
 
 const pageStyle = {
   backgroundColor: 'grey',
@@ -39,8 +40,8 @@ export class App extends Component {
       })
   }
 
-  importProductData = () => {
-    fetchData('A')
+  importProductData = (query) => {
+    fetchData(query)
       .then(data => {
         if (data.error) {
           alert(data.error)
@@ -56,7 +57,6 @@ export class App extends Component {
         if (data.error) {
           alert(data.error)
         } else {
-          // console.log(data)
           this.props.getNews(data.posts)
         }
       })
@@ -83,13 +83,19 @@ export class App extends Component {
   }
 
   componentDidMount() {
-    // this.importNewsData()
-    // this.importProductData()
-    // this.importCompanyData()
+    this.importNewsData()
+    this.importProductData("AAPL")
+    this.importCompanyData()
     if (localStorage.token) {
       this.handleValidation()
     }
   }
+
+  componentDidUpdate() {
+    // this.importProductData(this.props.selectedProduct)
+  }
+
+  
   
   render () {
     return (
@@ -97,6 +103,7 @@ export class App extends Component {
         <NavBar handleSignOut={this.handleSignOut}/>
         <Switch>
           <Route exact path='/' component={props => <HomePage  {...props}/>}/>
+          <Route path='/sign_up' component={props => <SignUpForm {...props}/>}/>
           <Route path='/log_in' component={props => <LogInForm {...props} />}/>
           <Route path='/landing' component={props => <UserPage {...props}/>}/>
         </Switch>
@@ -107,8 +114,9 @@ export class App extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
+  selectedProduct: state.selectedProduct,
   inventory: state.inventory,
-  companies: state.companies.length > 0 && state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase())),
+  companies: state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase())),
 })
 
 export default withRouter(connect(mapStateToProps, actions)(App));

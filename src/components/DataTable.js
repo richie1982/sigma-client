@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect }from 'react';
 import { connect } from 'react-redux'
 import * as actions from '../actions'
+import { deleteProduct, fetchData, } from '../services/api'
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -22,25 +23,9 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(name, symbol, id) {
+  return { name, symbol, id };
 }
-
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
-];
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -69,8 +54,8 @@ function getSorting(order, orderBy) {
 const headRows = [
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
   { id: 'calories', numeric: false, disablePadding: false, label: 'Symbol' },
-  { id: 'fat', numeric: true, disablePadding: false, label: 'Open' },
-  { id: 'carbs', numeric: true, disablePadding: false, label: 'Close' },
+  // { id: 'fat', numeric: true, disablePadding: false, label: 'Open' },
+  // { id: 'carbs', numeric: true, disablePadding: false, label: 'Close' },
   { id: 'protein', numeric: true, disablePadding: false, label: 'Delete' },
 ];
 
@@ -180,6 +165,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const DataTable = (props) => {
+
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -187,6 +173,14 @@ const DataTable = (props) => {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const invt = props.inventory.map(product => createData(product.name, product.ticker, product.id))
+  const rows = invt.filter((item, index) => invt.indexOf(item === index))
+
+  const handleDeleteRow = (id) => {
+      deleteProduct(id)
+        .then(product => props.removeInventory(product))
+  }
 
   function handleRequestSort(event, property) {
     const isDesc = orderBy === property && order === 'desc';
@@ -235,10 +229,29 @@ const DataTable = (props) => {
     setDense(event.target.checked);
   }
 
+  // const [ selectedProduct, setSelectedProduct ] = useState("")
+  
+  const importProductData = (ticker) => {
+    props.selectProduct(ticker)
+  }
+
+  const { selectedProduct } = props
+
+  // useEffect(() => {
+  //   fetchData(props.selectedProduct)
+  //     .then(data => {
+  //       if (data.error) {
+  //         alert(data.error)
+  //       } else {
+  //         props.getData(data)
+  //       }
+  //     })
+  // }, [selectedProduct])
+
   const isSelected = name => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
+  // rows.map(row => console.log(row.id))
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -267,7 +280,7 @@ const DataTable = (props) => {
                   return (
                     <TableRow
                       hover
-                      // onClick={event => handleClick(event, row.name)}
+                      onClick={() => importProductData(row.symbol)}
                       role="checkbox"
                       // aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -277,11 +290,11 @@ const DataTable = (props) => {
                       <TableCell component="th" id={labelId} scope="row" padding="2px">
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
+                      <TableCell align="left">{row.symbol}</TableCell>
+                      {/* <TableCell align="right">{row.fat}</TableCell> */}
+                      {/* <TableCell align="right">{row.carbs}</TableCell> */}
                       <TableCell align="right">
-                      <div className={classes.actions} onClick={props.removeInventory}>
+                      <div className={classes.actions} onClick={() => handleDeleteRow(row.id)}>
                         <Tooltip title="Delete">
                           <IconButton aria-label="Delete">
                             <DeleteIcon />
@@ -322,7 +335,7 @@ const DataTable = (props) => {
 
 
 const mapStateToProps = (state) => ({
-  inventory: state.inventory,
+  inventory: state.inventory.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []),
   companies: state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
 })
 

@@ -16,9 +16,10 @@ const inventoryReducer = (state = [], action) => {
         case "GET_INVENTORY":
             return [...state, ...action.payload]
         case 'ADD_INVENTORY':  
-            return [...state, ...action.payload] 
+        // debugger
+            return [...state, action.payload]
         case "REMOVE_INVENTORY":
-            return state.filter(el => el.id !== action.id)
+            return state.filter(el => el.id !== action.payload.product_id)
         default:
             return state
     }
@@ -62,13 +63,23 @@ const newsDataReducer = (state = [], action) => {
     }
 }
 
+const selectedProductReducer = (state = "", action ) => {
+    switch(action.type) {
+        case 'SELECT_PRODUCT':
+            return state = action.payload
+        default:
+            return state
+    }
+}
+
 const rootReducer = combineReducers({
     user: userReducer,
     inventory: inventoryReducer,
     companies: companyReducer,
     searchTerm: searchReducer,
     productData: productDataReducer,
-    newsData: newsDataReducer
+    newsData: newsDataReducer,
+    selectedProduct: selectedProductReducer
 })
 
 export default rootReducer

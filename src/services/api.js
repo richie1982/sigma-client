@@ -26,7 +26,7 @@ export const logIn = (email, password) => {
 }
 
 export const signUp = (first_name, last_name, email, password) => {
-    return fetch(baseUrl + '/create', {
+    return fetch(baseUrl + '/users', {
         method: "POST",
         headers: { "Content-Type": 'application/json' },
         body: JSON.stringify({
@@ -38,23 +38,27 @@ export const signUp = (first_name, last_name, email, password) => {
     }).then(resp => resp.json())
 }
 
-export const saveProduct = (name, ticker) => {
-    return fetch(baseUrl, {
+export const saveProduct = (name, ticker, email) => {
+    return fetch(baseUrl + '/products', {
         method: "POST",
         headers: { "Content-Type": 'application/json' },
         body: JSON.stringify({
             name,
-            ticker
+            ticker,
+            email
         })
-    }).then(resp => resp.json)
+    }).then(resp => resp.json())
 }
 
 export const deleteProduct = (id) => {
-    return fetch(baseUrl, {
+    return fetch(baseUrl + '/delete', {
         method: "DELETE",
-        headers: { "Content-Type": 'application/json' },
+        headers: { 
+            "Content-Type": 'application/json',
+            'Authorisation': localStorage.token 
+            },
         body: JSON.stringify({
-            id
+            product_id: id
         })
     }).then(resp => resp.json())
 }
@@ -89,4 +93,5 @@ export const fetchNews1 = () => {
         .then(resp => resp.json())
 }
 
-window.fetchNews1 = fetchNews1
+window.fetchData = fetchData
+window.saveProduct = saveProduct

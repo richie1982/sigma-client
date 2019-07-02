@@ -134,8 +134,7 @@ const NavBar = (props) =>  {
 const mapStateToProps = state => ({
     searchTerm: state.searchTerm,
     user: state.user,
-    // companies: state.companies
-    companies: state.companies.length > 0 && state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
+    companies: state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
 })
   
 

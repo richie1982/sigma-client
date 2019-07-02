@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
+import { saveProduct } from '../services/api'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -26,14 +27,12 @@ function createData(name, symbol) {
 
 const SearchResults = (props) => {
 
-  const handleSaveToInventory = () => {
-      
-    props.addInventory()
+  const handleSaveToInventory = (name, symbol, email) => {
+    saveProduct(name, symbol, email)
+        .then(data => props.addInventory(data))
   }
 
-  const rows = [
-    props.companies.map(company => createData(company.name, company.symbol)),
-  ];
+  const rows = props.companies.map(company => createData(company.name, company.symbol))
 
   const closeTab = () => {
     props.clearSearch()
@@ -52,14 +51,14 @@ const SearchResults = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows[0].map((row, index) => (
+          {rows.map((row, index) => (
             <TableRow key={index}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
               <TableCell align="left">{row.symbol}</TableCell>
               <TableCell>
-                  <button onClick={null}>
+                  <button onClick={() => handleSaveToInventory(row.name, row.symbol, props.user.email)}>
                   SAVE
                   </button>
               </TableCell>
@@ -72,7 +71,9 @@ const SearchResults = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    companies: state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
+    user: state.user,
+    inventory: state.inventory.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []),
+    companies: state.companies.slice(1, 100).filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
   })
   
 export default connect(mapStateToProps, actions)(SearchResults)

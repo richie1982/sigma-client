@@ -14,8 +14,8 @@ export function addInventory(product) {
     return { type: 'ADD_INVENTORY', payload: product }
 }
 
-export function removeInventory(id) {
-    return { type: 'REMOVE_INVENTORY', id }
+export function removeInventory(product) {
+    return { type: 'REMOVE_INVENTORY', payload: product }
 }
 
 export function getCompanies(data) {
@@ -36,6 +36,10 @@ export function filterCompanies(searchTerm) {
 
 export function getData(data) {
     return { type: 'GET_DATA', payload: data }
+}
+
+export function selectProduct(product) {
+    return { type: 'SELECT_PRODUCT', payload: product }
 }
 
 export function getNews(data) {

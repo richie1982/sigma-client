@@ -3,7 +3,8 @@ import React from 'react'
 export const HomePage = props => {
     return (
         <div >
-            <p>Hello World</p>
+            <h1>SIGMA</h1>
+            <h3>Data visalisation and analytics</h3>
         </div>
     )
 }
