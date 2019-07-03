@@ -1,7 +1,7 @@
 import React, { useState, useEffect }from 'react';
 import { connect } from 'react-redux'
 import * as actions from '../actions'
-import { deleteProduct, fetchData, } from '../services/api'
+import { deleteProduct, fetchData2, } from '../services/api'
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -22,6 +22,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import { removePropertiesDeep } from '@babel/types';
 
 function createData(name, symbol, id) {
   return { name, symbol, id };
@@ -167,12 +168,15 @@ const useStyles = makeStyles(theme => ({
 const DataTable = (props) => {
 
   const classes = useStyles();
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('calories');
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  // const [ rows, setRows ] = useState([])
+  const [ loading, setLoading ] = useState(false)
+
 
   const invt = props.inventory.map(product => createData(product.name, product.ticker, product.id))
   const rows = invt.filter((item, index) => invt.indexOf(item === index))
@@ -235,7 +239,34 @@ const DataTable = (props) => {
     props.selectProduct(ticker)
   }
 
-  const { selectedProduct } = props
+  const { inventory } = props
+
+
+  // const handleDataFetch = () => {
+  //   const newArray = []
+  //   productRows.map(product => {
+  //     fetchData2(product.symbol)
+  //       .then(data => {
+  //         let newProduct = Object.assign(product, data)
+  //         newArray.push(newProduct)
+  //       })
+  //     })
+  //     setRows(newArray)
+  // }
+
+
+  // useEffect(() => {
+  //   setLoading(true)
+  //   handleDataFetch()
+  //   setLoading(false)
+  //   // console.log(rows)
+  // }, [inventory])
+  
+  // useEffect(() => {
+  //   // props.updateInventory(rows)
+  //   setTimeout(() => console.log(rows), 2000)
+  // }, [rows])
+
 
   // useEffect(() => {
   //   fetchData(props.selectedProduct)
@@ -271,7 +302,9 @@ const DataTable = (props) => {
               rowCount={rows.length}
             />
             <TableBody>
-              {stableSort(rows, getSorting(order, orderBy))
+              
+              {!loading &&
+                stableSort(rows, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
@@ -335,6 +368,7 @@ const DataTable = (props) => {
 
 
 const mapStateToProps = (state) => ({
+  dataInventory: state.updatedInventory,
   inventory: state.inventory.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []),
   companies: state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
 })

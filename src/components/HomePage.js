@@ -4,7 +4,7 @@ export const HomePage = props => {
     return (
         <div >
             <h1>SIGMA</h1>
-            <h3>Data visalisation and analytics</h3>
+            <h3>Data visualisation and analytics</h3>
         </div>
     )
 }

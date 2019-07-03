@@ -3,7 +3,7 @@ const alphaUrl = 'https://www.alphavantage.co/query?'
 const alphaAPIKey = 'SZ3EMK9594ZWZ6WJ'
 const timeSeriesIntraDay = 'TIME_SERIES_INTRADAY'
 const fxIntraDay = 'FX_INTRADAY'
-const iexAPIKey =  'pk_0cdead94812d4aec884c10e4cc744ddb'
+const iexAPIKey =  '?token=pk_0cdead94812d4aec884c10e4cc744ddb'
 const newsUrl = "http://webhose.io/filterWebContent?token=8a523f8c-d197-449c-9d80-bcc5fb1b6924&format=json&ts=1561798808490&sort=crawled&q=markets%20language%3Aenglish%20site_type%3Anews%20site_category%3Afinancial_news"
 const bloombergUrl ='https://bloomberg-market-and-financial-news.p.rapidapi.com/stories/list?template=CURRENCY&id=gbpusd'
 
@@ -75,7 +75,7 @@ export const fetchData = (ticker) => {
 }
 
 export const fetchCompany = () => {
-    return fetch('https://cloud.iexapis.com/stable/ref-data/symbols?token=' + iexAPIKey)
+    return fetch('https://cloud.iexapis.com/stable/ref-data/symbols' + iexAPIKey)
     .then(resp => resp.json())
 }
 
@@ -93,5 +93,18 @@ export const fetchNews1 = () => {
         .then(resp => resp.json())
 }
 
-window.fetchData = fetchData
+export const fetchData1 = (query) => {
+    return fetch('https://cloud.iexapis.com/stable/tops' + iexAPIKey + '&symbols=' + query)
+    .then(resp => resp.json())
+    // .then(data => console.log(data))
+}
+
+export const fetchData2 = async (query) => {
+    return await fetch('https://cloud.iexapis.com/stable/stock/' + query + '/quote' + iexAPIKey)
+    .then(resp => resp.json())
+    // .then(data => console.log(data))
+}
+
+window.fetchData1 = fetchData1
+window.fetchData2 = fetchData2
 window.saveProduct = saveProduct

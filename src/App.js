@@ -5,7 +5,7 @@ import * as actions from './actions'
 import HomePage from './components/HomePage';
 import LogInForm from './components/LogInForm'
 import UserPage from './components/UserPage';
-import { validate, fetchInventory, fetchCompany, fetchData, fetchNews1 } from './services/api';
+import { validate, fetchInventory, fetchCompany, fetchData, fetchNews1, fetchData2 } from './services/api';
 import NavBar from './components/NavBar'
 import SignUpForm from './components/SignUpForm';
 
@@ -18,16 +18,49 @@ const pageStyle = {
 
 export class App extends Component {
 
-  setInventory = () => {
-    fetchInventory()
-        .then(data => {
+  setInventory = async () => {
+    let newArray = []
+    await fetchInventory()
+        .then((data) => {
             if (data.error) {
                 alert(data.error)
             } else {
-                this.props.getInventory(data)
+                data.map((product,idx) => {
+                  fetchData2(product.ticker)
+                    .then(stock => {
+                      let newProduct = Object.assign(product, stock)
+                      newArray = [...newArray, newProduct]
+                      if (idx === data.length-1) {
+                        this.props.getInventory(newArray)
+                      }
+                    })
+                })
             }
-        })  
+        })
   }
+
+  // setInventory = async () => {
+  //   await fetchInventory()
+  //       .then(data => {
+  //           if (data.error) {
+  //               alert(data.error)
+  //           } else {
+  //               this.props.getInventory(data)
+  //           }
+  //       })  
+  // }
+
+  // const handleDataFetch = () => {
+  //   const newArray = []
+  //   productRows.map(product => {
+  //     fetchData2(product.symbol)
+  //       .then(data => {
+  //         let newProduct = Object.assign(product, data)
+  //         newArray.push(newProduct)
+  //       })
+  //     })
+  //     setRows(newArray)
+  // }
 
   importCompanyData = () => {
     fetchCompany()
@@ -78,14 +111,15 @@ export class App extends Component {
 
   handleSignOut = () => {
     this.props.signOut()
+    this.props.clearInventory()
     localStorage.removeItem('token')
     this.props.history.push('/')
   }
 
   componentDidMount() {
     this.importNewsData()
-    this.importProductData("AAPL")
-    this.importCompanyData()
+    // this.importProductData("AAPL")
+    // this.importCompanyData()
     if (localStorage.token) {
       this.handleValidation()
     }

@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react'
-import { logIn } from '../services/api'
+import { logIn, fetchInventory } from '../services/api'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 
@@ -61,10 +61,22 @@ export function LogInForm(props) {
           props.getUser(data)
           localStorage.setItem('token', data.token)
           props.history.push('/landing')
+          setInventory()
         }
       })
     setEmail('')
     setPassword('')
+  }
+
+  const setInventory = () => {
+    fetchInventory()
+        .then(data => {
+            if (data.error) {
+                alert(data.error)
+            } else {
+                props.getInventory(data)
+            }
+        })  
   }
   
   const classes = useStyles();

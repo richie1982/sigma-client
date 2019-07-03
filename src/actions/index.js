@@ -18,6 +18,10 @@ export function removeInventory(product) {
     return { type: 'REMOVE_INVENTORY', payload: product }
 }
 
+export function clearInventory() {
+    return { type: "CLEAR_INVENTORY" }
+}
+
 export function getCompanies(data) {
     return { type: 'GET_COMPANIES', payload: data }
 }
@@ -44,4 +48,8 @@ export function selectProduct(product) {
 
 export function getNews(data) {
     return { type: 'GET_NEWS', payload: data }
+}
+
+export function updateInventory(data) {
+    return { type: 'SET_INVENTORY', payload: data }
 }
