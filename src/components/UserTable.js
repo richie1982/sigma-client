@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 import GridLayout from 'react-grid-layout';
-// import FlexLayout from 'flexlayout-react'
 import './UserTable.css';
 import DataTable from './DataTable'
 import Graph from './Graph';
 import NewsTable from './NewsTable';
 import SearchResults from './SearchResults';
+import Popup from "reactjs-popup"
 
 const boxStyle = {
     backgroundColor: "white",
@@ -25,18 +25,38 @@ const boxContentStyle = {
   justifyContent: 'space-around'
 }
 
+const modalStyle = {
+  borderRadius: "1%",
+  boxShadow: "5px 10px 8px #888888",
+  width: 'auto', 
+  fontSize: '13px',
+}
+
 const UserTable = (props) => {
 
-  const [ showNews, setShowNews ] = useState(false)
   const [ content, setContent ] = useState('')
-  // const [ layout, setLayout] = useState([
-  //   {i: 'a', x: 0, y: 0, w: 3, h: 3.8, minH: 3.8},
-  //   {i: 'b', x: 5, y: 0, w: 3, h: 4.5, isResizable: false},
-  //   {i: 'c', x: 0, y: 5, w: 2, h: 3.55, minH: 3.55},
-  //   // {i: 'd', x: 5, y: 5, w: 2, h: 1},
-  //   {i: 'e', x: 5, y: 4, w: 5, h: 1}
-  // ])
+  const [ layout, setLayout] = useState([
+    {i: 'a', x: 0, y: 0, w: 3, h: 3.8, minH: 3.8},
+    {i: 'b', x: 5, y: 0, w: 3, h: 4.5, isResizable: false},
+    {i: 'c', x: 0, y: 5, w: 2, h: 3.55, minH: 3.55},
+    // {i: 'd', x: 2, y: 5, w: 3, h: 1, minH: 3}
+    // {i: 'e', x: 5, y: 4, w: 5, h: 2}    
+  ])
 
+  const [ open, setOpen ] = useState(false)
+
+  const closeNewsModal = () => {
+    setOpen(false)
+    setLayout(layout.filter(el => el.i !== 'd'))
+  }
+
+  const handleNewsModal = (text) => {
+    setContent(text)
+    layout.find(el => el.i === 'd') 
+      ? setLayout([...layout])
+      : setLayout([...layout, {i: 'd', x: 2, y: 5, w: 3, h: 1, minH: 3}])
+    setOpen(true)
+  }
 
   const displaySearchWindow = () => {
     props.updateLayout()
@@ -62,7 +82,7 @@ const UserTable = (props) => {
 
 
   return (
-    <GridLayout className="layout" layout={props.gridLayout}
+    <GridLayout className="layout" layout={layout}
      cols={6} 
      rowHeight={100}
      width={1200}
@@ -77,21 +97,31 @@ const UserTable = (props) => {
       </div>
 
       <div key="c" style={boxStyle}>
-        <NewsTable setShowNews={setShowNews} setContent={setContent} style={boxContentStyle}/>
+        <NewsTable handleNewsModal={handleNewsModal} style={boxContentStyle}/>
       </div>
 
-      {
-        <div key={"d"}
+      
+      {/* <div key={'d'}
         style={boxStyle}>
         <button onClick={props.clearSearch}>x</button>
-        {props.searchTerm && <SearchResults />}
-      </div>}
-
-        <div key={showNews ? 'e' : null} style={boxStyle}>
-        <button onClick={null}>x</button>
-        <span style={boxContentStyle} >
-        <p style={boxContentStyle}>{content}</p>
-        </span>
+        <SearchResults />
+      </div> */}
+      
+        <div key={'d'} style={{borderRadius: "2%"}}>
+      <Popup
+            open={open}
+            closeOnDocumentClick
+            onClose={closeNewsModal}
+            position={'right center'}
+            contentStyle={modalStyle}
+          >
+            <div className="modal" >
+              <a className="close" onClick={closeNewsModal} >
+                &times;
+              </a>
+              {content}
+            </div>
+          </Popup>
         </div>
     </GridLayout>
   )

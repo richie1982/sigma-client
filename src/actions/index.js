@@ -47,7 +47,8 @@ export function selectProduct(product) {
 }
 
 export function getNews(data) {
-    return { type: 'GET_NEWS', payload: data }
+    const filteredNews = data.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], [])
+    return { type: 'GET_NEWS', payload: filteredNews }
 }
 
 export function updateInventory(data) {

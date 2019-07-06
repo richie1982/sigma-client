@@ -28,11 +28,11 @@ export class App extends Component {
             if (data.error) {
                 alert(data.error)
             } else {
-                data.map((product,idx) => {
+                data.map((product) => {
                   fetchData2(product.ticker)
                     .then(stock => {
                       let newProduct = Object.assign(product, stock)
-                        this.props.addInventory(newProduct)
+                      this.props.addInventory(newProduct)
                     })
                 })
             }

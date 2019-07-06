@@ -10,6 +10,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as actions from '../actions'
+import Popup from "reactjs-popup"
+import SearchResults from './SearchResults'
 
 
 const useStyles = makeStyles(theme => ({
@@ -70,22 +72,41 @@ const buttonStyle = {
   textDecoration: "none",
 }
 
+const modalStyle = {
+  borderRadius: "1%",
+  boxShadow: "5px 10px 8px #888888",
+  width: 'auto',
+  padding: '0px'
+}
+
 const NavBar = (props) =>  {
 
   const classes = useStyles();
   const [ searchParam, setSearchParam ] = useState("")
+  const [ open, setOpen ] = useState(false)
   
   const searchHandle = (e) => {
     setSearchParam(e.target.value)
   }
-  
+
   const handleSearch = (e) => {
     e.preventDefault()
+    setOpen(true)
     props.updateSearch(searchParam)
     setSearchParam("")
-    props.updateLayout({i: 'd', x: 5, y: 5, w: 2, h: 1})
-    // props.clearSearch()
   }
+
+  const closeModal = () => {
+    setOpen(false)
+  }
+  
+  // const handleSearch = (e) => {
+  //   e.preventDefault()
+  //   props.updateSearch(searchParam)
+  //   setSearchParam("")
+  //   props.updateLayout({i: 'd', x: 5, y: 5, w: 2, h: 1})
+  //   // props.clearSearch()
+  // }
 
   return (
     <div className={classes.root}>
@@ -123,6 +144,17 @@ const NavBar = (props) =>  {
                 }}
                 inputProps={{ 'aria-label': 'Search' }}
               />
+              <Popup
+                open={open}
+                closeOnDocumentClick
+                onClose={closeModal}
+                position={"top center"}
+                contentStyle={modalStyle}
+              >
+                <span>
+                <SearchResults />
+                </span>
+              </Popup>
             </form>
           }
         </Toolbar>

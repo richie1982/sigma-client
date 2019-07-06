@@ -111,10 +111,10 @@ const NewsTable = (props) => {
       setLoading(false) 
   }
 
-  const handleNewsContent = (text) => {
-    props.setContent(text)
-    props.setShowNews(true)
-  }
+  // const handleNewsModal = (text) => {
+  //   props.setContent(text)
+  //   props.setOpen(true)
+  // }
   
   function handleChangePage(event, newPage) {
     setPage(newPage);
@@ -149,8 +149,12 @@ const NewsTable = (props) => {
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
               <TableRow key={row.uuid}>
-                <TableCell component="th" scope="row" onClick={() => handleNewsContent(row.text)}>
-                  {row.title}
+                <TableCell component="th" scope="row" onClick={() => props.handleNewsModal(row.text)}>
+                  {
+                    row.title.length > 0
+                  ? row.title
+                  :"No title... Click here for Content"
+                  }
                 </TableCell>
               </TableRow>
             ))}
@@ -180,8 +184,23 @@ const NewsTable = (props) => {
             </TableRow>
           </TableFooter>
         </Table>
+        {/* <Popup
+          open={open}
+          closeOnDocumentClick
+          onClose={closeModal}
+          position={'right center'}
+          contentStyle={{width: 'auto', fontSize: '10px'}}
+        >
+          <div className="modal" >
+            <a className="close" onClick={closeModal} >
+              &times;
+            </a>
+            {content}
+          </div>
+        </Popup> */}
       </div>
     </Paper>
+    
   );
 }
 

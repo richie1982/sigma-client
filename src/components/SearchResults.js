@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
-import { saveProduct } from '../services/api'
+import { saveProduct, fetchData2 } from '../services/api'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function createData(name, symbol) {
+const createData = (name, symbol) => {
   return { name, symbol };
 }
 
@@ -29,14 +29,18 @@ const SearchResults = (props) => {
 
   const handleSaveToInventory = (name, symbol, email) => {
     saveProduct(name, symbol, email)
-        .then(data => props.addInventory(data))
+        .then(data => {
+          fetchData2(data.ticker)
+            .then(stock => {
+              let newProduct = Object.assign(data, stock)
+              props.addInventory(newProduct)
+            })
+        })
   }
+
+  // 
 
   const rows = props.companies.map(company => createData(company.name, company.symbol))
-
-  const closeTab = () => {
-    props.clearSearch()
-  }
 
   const classes = useStyles();
 
@@ -48,7 +52,7 @@ const SearchResults = (props) => {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell align="left">Symbol</TableCell>
-            <TableCell align="left">+</TableCell>
+            <TableCell align="left">Add</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -59,7 +63,10 @@ const SearchResults = (props) => {
               </TableCell>
               <TableCell align="left">{row.symbol}</TableCell>
               <TableCell align="left">
-                  <button onClick={() => handleSaveToInventory(row.name, row.symbol, props.user.email)}>
+                  <button onClick={(e) => {
+                    e.preventDefault()
+                    handleSaveToInventory(row.name, row.symbol, props.user.email)}}
+                    >
                   SAVE
                   </button>
               </TableCell>
