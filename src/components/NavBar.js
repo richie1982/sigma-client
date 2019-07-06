@@ -83,6 +83,7 @@ const NavBar = (props) =>  {
     e.preventDefault()
     props.updateSearch(searchParam)
     setSearchParam("")
+    props.updateLayout({i: 'd', x: 5, y: 5, w: 2, h: 1})
     // props.clearSearch()
   }
 

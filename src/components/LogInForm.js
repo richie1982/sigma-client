@@ -61,7 +61,7 @@ export function LogInForm(props) {
           props.getUser(data)
           localStorage.setItem('token', data.token)
           props.history.push('/landing')
-          setInventory()
+          props.setInventory()
         }
       })
     setEmail('')
@@ -80,7 +80,6 @@ export function LogInForm(props) {
   }
   
   const classes = useStyles();
-  console.log('login', props)
 
   return (
     <Grid container component="main" className={classes.root}>

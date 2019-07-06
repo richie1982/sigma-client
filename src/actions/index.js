@@ -53,3 +53,15 @@ export function getNews(data) {
 export function updateInventory(data) {
     return { type: 'SET_INVENTORY', payload: data }
 }
+
+export function setLayout(data) {
+    return { type: "SET_LAYOUT", payload: data }
+}
+
+export function updateLayout(data) {
+    return { type: 'UPDATE_LAYOUT', payload: data }
+}
+
+export function removeLayout(data) {
+    return { type: 'REMOVE_LAYOUT', payload: data }
+}

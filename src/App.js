@@ -18,8 +18,11 @@ const pageStyle = {
 
 export class App extends Component {
 
+  state = {
+    loading: false
+  }
+
   setInventory = async () => {
-    let newArray = []
     await fetchInventory()
         .then((data) => {
             if (data.error) {
@@ -29,38 +32,12 @@ export class App extends Component {
                   fetchData2(product.ticker)
                     .then(stock => {
                       let newProduct = Object.assign(product, stock)
-                      newArray = [...newArray, newProduct]
-                      if (idx === data.length-1) {
-                        this.props.getInventory(newArray)
-                      }
+                        this.props.addInventory(newProduct)
                     })
                 })
             }
         })
   }
-
-  // setInventory = async () => {
-  //   await fetchInventory()
-  //       .then(data => {
-  //           if (data.error) {
-  //               alert(data.error)
-  //           } else {
-  //               this.props.getInventory(data)
-  //           }
-  //       })  
-  // }
-
-  // const handleDataFetch = () => {
-  //   const newArray = []
-  //   productRows.map(product => {
-  //     fetchData2(product.symbol)
-  //       .then(data => {
-  //         let newProduct = Object.assign(product, data)
-  //         newArray.push(newProduct)
-  //       })
-  //     })
-  //     setRows(newArray)
-  // }
 
   importCompanyData = () => {
     fetchCompany()
@@ -116,10 +93,17 @@ export class App extends Component {
     this.props.history.push('/')
   }
 
+  defaultLayout = [
+    {i: 'a', x: 0, y: 0, w: 3, h: 3.8, minH: 3.8},
+    {i: 'b', x: 5, y: 0, w: 3, h: 4.5, isResizable: false},
+    {i: 'c', x: 0, y: 5, w: 2, h: 3.55, minH: 3.55},
+  ]
+
   componentDidMount() {
+    this.props.setLayout(this.defaultLayout)
     this.importNewsData()
     // this.importProductData("AAPL")
-    // this.importCompanyData()
+    this.importCompanyData()
     if (localStorage.token) {
       this.handleValidation()
     }
@@ -136,9 +120,9 @@ export class App extends Component {
       <div>
         <NavBar handleSignOut={this.handleSignOut}/>
         <Switch>
-          <Route exact path='/' component={props => <HomePage  {...props}/>}/>
+          <Route exact path='/'  component={props => <HomePage  {...props}/>} />
           <Route path='/sign_up' component={props => <SignUpForm {...props}/>}/>
-          <Route path='/log_in' component={props => <LogInForm {...props} />}/>
+          <Route path='/log_in' component={props => <LogInForm setInventory={this.setInventory} {...props} />}/>
           <Route path='/landing' component={props => <UserPage {...props}/>}/>
         </Switch>
       </div>

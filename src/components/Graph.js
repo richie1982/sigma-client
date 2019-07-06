@@ -13,10 +13,14 @@ class Graph extends React.Component {
             }
         ],
         style: {
-            width: '300%',
+            width: '100%',
+            height: '100%',
         },
         layout: {
+            title: { text: 'Graph' },
             autosize: true,
+            showlegend: false,
+            margin: { l: 40, r: 40, t: 50, b: 40 }
         },
 
     }

@@ -83,6 +83,19 @@ const updatedInventoryReducer = ( state = [], action ) => {
     }
 }
 
+const gridLayoutReducer = ( state = [], action ) => {
+    switch(action.type) {
+        case 'SET_LAYOUT':
+            return [...state, ...action.payload ]
+        case 'UPDATE_LAYOUT':
+            return [...state, action.payload]
+        case 'REMOVE_LAYOUT':
+            return state.filter(el => el.i !== action.payload.i)
+        default:
+            return state
+    }
+}
+
 const rootReducer = combineReducers({
     user: userReducer,
     inventory: inventoryReducer,
@@ -91,7 +104,8 @@ const rootReducer = combineReducers({
     productData: productDataReducer,
     newsData: newsDataReducer,
     selectedProduct: selectedProductReducer,
-    updatedInventory: updatedInventoryReducer
+    updatedInventory: updatedInventoryReducer,
+    layout: gridLayoutReducer
 })
 
 export default rootReducer

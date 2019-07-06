@@ -4,7 +4,7 @@ const alphaAPIKey = 'SZ3EMK9594ZWZ6WJ'
 const timeSeriesIntraDay = 'TIME_SERIES_INTRADAY'
 const fxIntraDay = 'FX_INTRADAY'
 const iexAPIKey =  '?token=pk_0cdead94812d4aec884c10e4cc744ddb'
-const newsUrl = "http://webhose.io/filterWebContent?token=8a523f8c-d197-449c-9d80-bcc5fb1b6924&format=json&ts=1561798808490&sort=crawled&q=markets%20language%3Aenglish%20site_type%3Anews%20site_category%3Afinancial_news"
+const newsUrl = 'http://webhose.io/filterWebContent?token=8a523f8c-d197-449c-9d80-bcc5fb1b6924&format=json&ts=1562166299528&sort=published&q=markets%20language%3Aenglish%20site_type%3Anews%20site_category%3Afinancial_news'
 const bloombergUrl ='https://bloomberg-market-and-financial-news.p.rapidapi.com/stories/list?template=CURRENCY&id=gbpusd'
 
 
@@ -14,8 +14,8 @@ export const fetchInventory = () => {
     }).then(resp => resp.json())
 }
 
-export const logIn = (email, password) => {
-    return fetch(baseUrl + '/log_in', {
+export const logIn = async (email, password) => {
+    return await fetch(baseUrl + '/log_in', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

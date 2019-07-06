@@ -18,48 +18,88 @@ const boxStyle = {
 }
 
 const boxContentStyle = {
-
+  width: "100%", 
+  height: "100%", 
+  position: 'absolute',
+  display: 'flex', 
+  justifyContent: 'space-around'
 }
 
 const UserTable = (props) => {
 
-  // const [ boxLayout, setBoxLayout] = useState()
+  const [ showNews, setShowNews ] = useState(false)
+  const [ content, setContent ] = useState('')
+  // const [ layout, setLayout] = useState([
+  //   {i: 'a', x: 0, y: 0, w: 3, h: 3.8, minH: 3.8},
+  //   {i: 'b', x: 5, y: 0, w: 3, h: 4.5, isResizable: false},
+  //   {i: 'c', x: 0, y: 5, w: 2, h: 3.55, minH: 3.55},
+  //   // {i: 'd', x: 5, y: 5, w: 2, h: 1},
+  //   {i: 'e', x: 5, y: 4, w: 5, h: 1}
+  // ])
 
-  // const handleLayout = () => {
-  //   setBoxLayout(null)
+
+  const displaySearchWindow = () => {
+    props.updateLayout()
+    return (
+      <div key='d' style={boxStyle}>
+        <SearchResults style={boxContentStyle}/>
+      </div>
+    )
+  }
+
+  // const closeNewsWindow = () => {
+  //   setContent('')
+  //   setLayout(layout.filter(el => el.i !== 'e'))
+  //   // setShowNews(false)
   // }
-
   // layout is an array of objects, see the demo for more complete usage
-  const layout = [
-    {i: 'a', x: 0, y: 0, w: 5, h: 1, static: false},
-    {i: 'b', x: 5, y: 0, w: 3, h: 1},
-    {i: 'c', x: 0, y: 3, w: 3, h: 1},
-    {i: 'd', x: 10, y: 0, w: 5, h: 1},
-    {i: 'z', x: 0, y: 0, w: 0, h: 0}
-  ];
+  // const layout = [
+    
+  //   
+  //   
+  // ];
+
+
 
   return (
-    <GridLayout className="layout" layout={layout} cols={12} width={1200} rowHeight={300}>
+    <GridLayout className="layout" layout={props.gridLayout}
+     cols={6} 
+     rowHeight={100}
+     width={1200}
+     autoSize={true}
+     >
       <div key="a" style={boxStyle}>
-        <DataTable style={{width: "100%", height: "100%", position: 'absolute'}}/>
+        <DataTable style={boxContentStyle}/>
       </div>
+
       <div key="b" style={boxStyle}>
-        <Graph/>
+        <Graph style={boxContentStyle}/>
       </div>
+
       <div key="c" style={boxStyle}>
-        <NewsTable />
+        <NewsTable setShowNews={setShowNews} setContent={setContent} style={boxContentStyle}/>
       </div>
-        <div key={props.searchTerm.length > 0 ? "d" : 'z'}
+
+      {
+        <div key={"d"}
         style={boxStyle}>
         <button onClick={props.clearSearch}>x</button>
-        <SearchResults />
+        {props.searchTerm && <SearchResults />}
+      </div>}
+
+        <div key={showNews ? 'e' : null} style={boxStyle}>
+        <button onClick={null}>x</button>
+        <span style={boxContentStyle} >
+        <p style={boxContentStyle}>{content}</p>
+        </span>
         </div>
     </GridLayout>
   )
 }
 
 const mapStateToProps = state => ({
-  searchTerm: state.searchTerm
+  searchTerm: state.searchTerm,
+  gridLayout: state.layout
 })
 
 export default connect(mapStateToProps, actions)(UserTable);

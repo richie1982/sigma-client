@@ -24,8 +24,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { removePropertiesDeep } from '@babel/types';
 
-function createData(name, symbol, id) {
-  return { name, symbol, id };
+function createData(name, symbol, id, price, close) {
+  return { name, symbol, id, price, close };
 }
 
 function desc(a, b, orderBy) {
@@ -54,10 +54,10 @@ function getSorting(order, orderBy) {
 
 const headRows = [
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
-  { id: 'calories', numeric: false, disablePadding: false, label: 'Symbol' },
-  // { id: 'fat', numeric: true, disablePadding: false, label: 'Open' },
-  // { id: 'carbs', numeric: true, disablePadding: false, label: 'Close' },
-  { id: 'protein', numeric: true, disablePadding: false, label: 'Delete' },
+  { id: 'symbol', numeric: false, disablePadding: false, label: 'Symbol' },
+  { id: 'price', numeric: true, disablePadding: false, label: 'Price' },
+  { id: 'close', numeric: true, disablePadding: false, label: 'Close' },
+  { id: 'delete', numeric: true, disablePadding: false, label: 'Delete' },
 ];
 
 function EnhancedTableHead(props) {
@@ -178,7 +178,7 @@ const DataTable = (props) => {
   const [ loading, setLoading ] = useState(false)
 
 
-  const invt = props.inventory.map(product => createData(product.name, product.ticker, product.id))
+  const invt = props.inventory.map(product => createData(product.name, product.ticker, product.id, product.latestPrice, product.close))
   const rows = invt.filter((item, index) => invt.indexOf(item === index))
 
   const handleDeleteRow = (id) => {
@@ -313,19 +313,22 @@ const DataTable = (props) => {
                   return (
                     <TableRow
                       hover
-                      onClick={() => importProductData(row.symbol)}
+                      
                       role="checkbox"
                       // aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.name}
                       // selected={isItemSelected}
                     >
-                      <TableCell component="th" id={labelId} scope="row" padding="2px">
+                      <TableCell onClick={() => importProductData(row.symbol)} component="th" id={labelId} scope="row" padding="2px">
                         {row.name}
                       </TableCell>
                       <TableCell align="left">{row.symbol}</TableCell>
-                      {/* <TableCell align="right">{row.fat}</TableCell> */}
-                      {/* <TableCell align="right">{row.carbs}</TableCell> */}
+                      <TableCell align="right" 
+                      style={row.close > row.price ? {color: 'red'} : {color: "green" }}>
+                      {row.price}
+                      </TableCell>
+                      <TableCell align="right">{row.close}</TableCell>
                       <TableCell align="right">
                       <div className={classes.actions} onClick={() => handleDeleteRow(row.id)}>
                         <Tooltip title="Delete">

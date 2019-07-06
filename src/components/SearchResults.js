@@ -48,6 +48,7 @@ const SearchResults = (props) => {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell align="left">Symbol</TableCell>
+            <TableCell align="left">+</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -57,7 +58,7 @@ const SearchResults = (props) => {
                 {row.name}
               </TableCell>
               <TableCell align="left">{row.symbol}</TableCell>
-              <TableCell>
+              <TableCell align="left">
                   <button onClick={() => handleSaveToInventory(row.name, row.symbol, props.user.email)}>
                   SAVE
                   </button>

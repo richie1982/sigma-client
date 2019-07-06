@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect }from 'react';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -14,6 +14,7 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import { ClipLoader	 } from 'react-spinners';
 
 const useStyles1 = makeStyles(theme => ({
   root: {
@@ -81,8 +82,8 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(title, uuid, published) {
-  return { title, uuid, published };
+function createData(title, uuid, published, text) {
+  return { title, uuid, published, text };
 }
 
 const useStyles2 = makeStyles(theme => ({
@@ -101,27 +102,54 @@ const useStyles2 = makeStyles(theme => ({
 const NewsTable = (props) => {
 
   const classes = useStyles2();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const rows = props.news.map(story => createData(story.title, story.uuid, story.published)).sort((a, b) => (a.published < b.published ? 1 : -1));
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [ loading, setLoading ] = useState(true)
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const handleLoading = () =>  {
+    rows.length > 0 &&
+      setLoading(false) 
+  }
 
+  const handleNewsContent = (text) => {
+    props.setContent(text)
+    props.setShowNews(true)
+  }
+  
   function handleChangePage(event, newPage) {
     setPage(newPage);
   }
-
+  
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
   }
+
+  const rows = props.news.map(story => 
+    createData(story.title, story.uuid, story.published, story.text)).sort((a, b) => (a.published < b.published ? 1 : -1));
+
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  
+  const override = {
+    margin: 100
+  }
+  
+  useEffect(() => {
+    handleLoading()
+  }, [])
+
   return (
     <Paper className={classes.root}>
+        <ClipLoader	
+        css={override}
+          color={'blue'}
+          loading={loading}
+            />
       <div className={classes.tableWrapper}>
         <Table className={classes.table}>
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
               <TableRow key={row.uuid}>
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row" onClick={() => handleNewsContent(row.text)}>
                   {row.title}
                 </TableCell>
               </TableRow>
