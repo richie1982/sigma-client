@@ -1,7 +1,7 @@
-import React, { useState, useEffect }from 'react';
+import React, { useState }from 'react';
 import { connect } from 'react-redux'
 import * as actions from '../actions'
-import { deleteProduct, fetchData2, } from '../services/api'
+import { deleteProduct } from '../services/api'
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -15,7 +15,6 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -75,6 +74,7 @@ function EnhancedTableHead(props) {
             align={row.numeric ? 'right' : 'left'}
             padding={row.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === row.id ? order : false}
+            style={{color: "#f2f2f2"}}
           >
             <TableSortLabel
               active={orderBy === row.id}
@@ -135,8 +135,8 @@ const EnhancedTableToolbar = props => {
         [classes.highlight]: numSelected > 0,
       })}
     >
-      <div className={classes.title} >
-          <Typography variant="h6" id="tableTitle" >
+      <div className={classes.title} style={{padding: 0}}>
+          <Typography variant="h6" id="tableTitle" style={{color: "#f2e6d9"}}>
             Watch List
           </Typography>
       </div>
@@ -155,6 +155,8 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     width: '100%',
+    backgroundColor: "#3e4444",
+
     // marginBottom: theme.spacing(2),
   },
   table: {
@@ -242,47 +244,10 @@ const DataTable = (props) => {
   const { inventory } = props
 
 
-  // const handleDataFetch = () => {
-  //   const newArray = []
-  //   productRows.map(product => {
-  //     fetchData2(product.symbol)
-  //       .then(data => {
-  //         let newProduct = Object.assign(product, data)
-  //         newArray.push(newProduct)
-  //       })
-  //     })
-  //     setRows(newArray)
-  // }
-
-
-  // useEffect(() => {
-  //   setLoading(true)
-  //   handleDataFetch()
-  //   setLoading(false)
-  //   // console.log(rows)
-  // }, [inventory])
-  
-  // useEffect(() => {
-  //   // props.updateInventory(rows)
-  //   setTimeout(() => console.log(rows), 2000)
-  // }, [rows])
-
-
-  // useEffect(() => {
-  //   fetchData(props.selectedProduct)
-  //     .then(data => {
-  //       if (data.error) {
-  //         alert(data.error)
-  //       } else {
-  //         props.getData(data)
-  //       }
-  //     })
-  // }, [selectedProduct])
 
   const isSelected = name => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-  // rows.map(row => console.log(row.id))
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -313,26 +278,26 @@ const DataTable = (props) => {
                   return (
                     <TableRow
                       hover
-                      
+                      margin= '0'
                       role="checkbox"
                       // aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.name}
                       // selected={isItemSelected}
                     >
-                      <TableCell onClick={() => importProductData(row.symbol)} component="th" id={labelId} scope="row" padding="2px">
+                      <TableCell style={{color: "#f2e6d9"}} onClick={() => importProductData(row.symbol)} component="th" id={labelId} scope="row" padding="1px">
                         {row.name}
                       </TableCell>
-                      <TableCell align="left">{row.symbol}</TableCell>
+                      <TableCell align="left" style={{color: "#f2e6d9"}}>{row.symbol}</TableCell>
                       <TableCell align="right" 
-                      style={row.close > row.price ? {color: 'red'} : {color: "green" }}>
-                      {row.price}
+                      style={row.close > row.price ? {color: '#ff0000'} : {color: "#00ff00" }}>
+                      {row.price} {row.close > row.price ? '↓' : '↑' }
                       </TableCell>
-                      <TableCell align="right">{row.close}</TableCell>
-                      <TableCell align="right">
+                      <TableCell align="right" style={{color: "#f2e6d9"}}>{row.close}</TableCell>
+                      <TableCell align="right" >
                       <div className={classes.actions} onClick={() => handleDeleteRow(row.id)}>
                         <Tooltip title="Delete">
-                          <IconButton aria-label="Delete">
+                          <IconButton aria-label="Delete" style={{color: "#f2f2f2"}}>
                             <DeleteIcon />
                           </IconButton>
                         </Tooltip>
@@ -350,6 +315,7 @@ const DataTable = (props) => {
           </Table>
         </div>
         <TablePagination
+          style={{color: "#f2f2f2"}}
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}
@@ -357,6 +323,7 @@ const DataTable = (props) => {
           page={page}
           backIconButtonProps={{
             'aria-label': 'Previous Page',
+            color: 'white'
           }}
           nextIconButtonProps={{
             'aria-label': 'Next Page',

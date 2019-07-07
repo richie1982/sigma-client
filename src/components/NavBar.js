@@ -1,4 +1,10 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import * as actions from '../actions'
+import Popup from "reactjs-popup"
+import SearchResults from './SearchResults'
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -7,11 +13,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import * as actions from '../actions'
-import Popup from "reactjs-popup"
-import SearchResults from './SearchResults'
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -99,14 +101,6 @@ const NavBar = (props) =>  {
   const closeModal = () => {
     setOpen(false)
   }
-  
-  // const handleSearch = (e) => {
-  //   e.preventDefault()
-  //   props.updateSearch(searchParam)
-  //   setSearchParam("")
-  //   props.updateLayout({i: 'd', x: 5, y: 5, w: 2, h: 1})
-  //   // props.clearSearch()
-  // }
 
   return (
     <div className={classes.root}>

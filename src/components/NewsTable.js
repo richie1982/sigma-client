@@ -92,6 +92,7 @@ const useStyles2 = makeStyles(theme => ({
     // marginTop: theme.spacing(3),
   },
   table: {
+    backgroundColor: "#3e4444",
     minWidth: "100%",
   },
   tableWrapper: {
@@ -139,17 +140,21 @@ const NewsTable = (props) => {
 
   return (
     <Paper className={classes.root}>
-        <ClipLoader	
-        css={override}
-          color={'blue'}
-          loading={loading}
-            />
-      <div className={classes.tableWrapper}>
+    {loading
+        ?  <div>
+          <ClipLoader	
+          css={override}
+            color={'blue'}
+            loading={loading}
+              />
+        </div>
+
+      : <div className={classes.tableWrapper}>
         <Table className={classes.table}>
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
+            {rows.filter(el => el.title.length > 0).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
               <TableRow key={row.uuid}>
-                <TableCell component="th" scope="row" onClick={() => props.handleNewsModal(row.text)}>
+                <TableCell style={{color: "#f2f2f2"}} component="th" scope="row" onClick={() => props.handleNewsModal(row.text)}>
                   {
                     row.title.length > 0
                   ? row.title
@@ -165,9 +170,10 @@ const NewsTable = (props) => {
               </TableRow>
             )}
           </TableBody>
-          <TableFooter>
+          <TableFooter >
             <TableRow>
               <TablePagination
+                style={{color: "#f2f2f2"}}
                 rowsPerPageOptions={[5, 10, 25]}
                 colSpan={3}
                 count={rows.length}
@@ -199,6 +205,7 @@ const NewsTable = (props) => {
           </div>
         </Popup> */}
       </div>
+    }
     </Paper>
     
   );

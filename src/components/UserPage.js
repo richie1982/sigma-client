@@ -4,7 +4,7 @@ import * as actions from '../actions'
 import UserTable from './UserTable'
 
 const pageStyle = {
-    backgroundColor: '#C4C5C6',
+    backgroundColor: '#666666',
     margin: 0
 }
 
@@ -16,7 +16,7 @@ export const UserPage = (props) => {
     return (
         <div style={pageStyle}>
             {props.user &&
-                <h2 style={{margin: 0}}>Welcome {props.user.first_name}</h2>}
+                <h2 style={{ textAlign: 'left', margin: 0, color: "#e6e6e6", leftBorder: '10px', padding: '3px' }}>Welcome {props.user.first_name}</h2>}
             <div>
             <UserTable/>
             </div>

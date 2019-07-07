@@ -93,34 +93,21 @@ export class App extends Component {
     this.props.history.push('/')
   }
 
-  defaultLayout = [
-    {i: 'a', x: 0, y: 0, w: 3, h: 3.8, minH: 3.8},
-    {i: 'b', x: 5, y: 0, w: 3, h: 4.5, isResizable: false},
-    {i: 'c', x: 0, y: 5, w: 2, h: 3.55, minH: 3.55},
-  ]
-
   componentDidMount() {
-    this.props.setLayout(this.defaultLayout)
     this.importNewsData()
-    // this.importProductData("AAPL")
+    this.importProductData("AAPL")
     this.importCompanyData()
     if (localStorage.token) {
       this.handleValidation()
     }
   }
 
-  componentDidUpdate() {
-    // this.importProductData(this.props.selectedProduct)
-  }
-
-  
-  
   render () {
     return (
       <div>
         <NavBar handleSignOut={this.handleSignOut}/>
         <Switch>
-          <Route exact path='/'  component={props => <HomePage  {...props}/>} />
+          <Route exact path='/' component={props => <HomePage  {...props}/>} />
           <Route path='/sign_up' component={props => <SignUpForm {...props}/>}/>
           <Route path='/log_in' component={props => <LogInForm setInventory={this.setInventory} {...props} />}/>
           <Route path='/landing' component={props => <UserPage {...props}/>}/>

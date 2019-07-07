@@ -6,15 +6,14 @@ import './UserTable.css';
 import DataTable from './DataTable'
 import Graph from './Graph';
 import NewsTable from './NewsTable';
-import SearchResults from './SearchResults';
 import Popup from "reactjs-popup"
 
 const boxStyle = {
-    backgroundColor: "white",
+    backgroundColor: "#3e4444",
     border: "1px solid",
     borderRadius: "1%",
     borderColor: "grey",
-    boxShadow: "5px 10px 8px #888888",
+    boxShadow: "5px 10px 8px #333333",
 }
 
 const boxContentStyle = {
@@ -36,11 +35,9 @@ const UserTable = (props) => {
 
   const [ content, setContent ] = useState('')
   const [ layout, setLayout] = useState([
-    {i: 'a', x: 0, y: 0, w: 3, h: 3.8, minH: 3.8},
+    {i: 'a', x: 0, y: 0, w: 3, h: 4.2, minH: 3.8},
     {i: 'b', x: 5, y: 0, w: 3, h: 4.5, isResizable: false},
-    {i: 'c', x: 0, y: 5, w: 2, h: 3.55, minH: 3.55},
-    // {i: 'd', x: 2, y: 5, w: 3, h: 1, minH: 3}
-    // {i: 'e', x: 5, y: 4, w: 5, h: 2}    
+    {i: 'c', x: 0, y: 5, w: 3, h: 3.5, minH: 3, isResizable: false}, 
   ])
 
   const [ open, setOpen ] = useState(false)
@@ -54,32 +51,9 @@ const UserTable = (props) => {
     setContent(text)
     layout.find(el => el.i === 'd') 
       ? setLayout([...layout])
-      : setLayout([...layout, {i: 'd', x: 2, y: 5, w: 3, h: 1, minH: 3}])
+      : setLayout([...layout, {i: 'd', x: 3, y: 5, w: 3, h: 1, minH: 3}])
     setOpen(true)
   }
-
-  const displaySearchWindow = () => {
-    props.updateLayout()
-    return (
-      <div key='d' style={boxStyle}>
-        <SearchResults style={boxContentStyle}/>
-      </div>
-    )
-  }
-
-  // const closeNewsWindow = () => {
-  //   setContent('')
-  //   setLayout(layout.filter(el => el.i !== 'e'))
-  //   // setShowNews(false)
-  // }
-  // layout is an array of objects, see the demo for more complete usage
-  // const layout = [
-    
-  //   
-  //   
-  // ];
-
-
 
   return (
     <GridLayout className="layout" layout={layout}
@@ -100,13 +74,6 @@ const UserTable = (props) => {
         <NewsTable handleNewsModal={handleNewsModal} style={boxContentStyle}/>
       </div>
 
-      
-      {/* <div key={'d'}
-        style={boxStyle}>
-        <button onClick={props.clearSearch}>x</button>
-        <SearchResults />
-      </div> */}
-      
         <div key={'d'} style={{borderRadius: "2%"}}>
       <Popup
             open={open}
@@ -129,7 +96,7 @@ const UserTable = (props) => {
 
 const mapStateToProps = state => ({
   searchTerm: state.searchTerm,
-  gridLayout: state.layout
+  // gridLayout: state.layout
 })
 
 export default connect(mapStateToProps, actions)(UserTable);
