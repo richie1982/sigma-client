@@ -1,7 +1,7 @@
 import React, { useState }from 'react';
 import { connect } from 'react-redux'
 import * as actions from '../actions'
-import { deleteProduct } from '../services/api'
+import { deleteProduct, fetchIntraDayData, fetchCalenderData } from '../services/api'
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -238,8 +238,33 @@ const DataTable = (props) => {
   // const [ selectedProduct, setSelectedProduct ] = useState("")
   
   const importProductData = (ticker) => {
-    props.selectProduct(ticker)
-  }
+      fetchIntraDayData(ticker)
+        .then(data => {
+          if (data.error) {
+            alert(data.error)
+          } else {
+            props.getProductData(data)
+          }
+        })
+      fetchCalenderData(ticker, "TIME_SERIES_DAILY")
+        .then(data => {
+          if (data.error) {
+            alert(data.error)
+          } else {
+            props.setDailyData(data)
+          }
+        })
+      fetchCalenderData(ticker, "TIME_SERIES_WEEKLY")
+        .then(data => {
+          if (data.error) {
+            alert(data.error)
+          } else {
+            props.setWeeklyData(data)
+          }
+        })
+    }
+    
+  
 
   const { inventory } = props
 
@@ -338,6 +363,7 @@ const DataTable = (props) => {
 
 
 const mapStateToProps = (state) => ({
+  timeSeries: state.timeSeries,
   dataInventory: state.updatedInventory,
   inventory: state.inventory.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []),
   companies: state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))

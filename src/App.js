@@ -5,7 +5,7 @@ import * as actions from './actions'
 import HomePage from './components/HomePage';
 import LogInForm from './components/LogInForm'
 import UserPage from './components/UserPage';
-import { validate, fetchInventory, fetchCompany, fetchData, fetchNews1, fetchData2 } from './services/api';
+import { validate, fetchInventory, fetchCompany, fetchIntraDayData, fetchNews1, fetchData2 } from './services/api';
 import NavBar from './components/NavBar'
 import SignUpForm from './components/SignUpForm';
 
@@ -51,7 +51,7 @@ export class App extends Component {
   }
 
   importProductData = (query) => {
-    fetchData(query)
+    fetchIntraDayData(query)
       .then(data => {
         if (data.error) {
           alert(data.error)
@@ -95,7 +95,7 @@ export class App extends Component {
 
   componentDidMount() {
     this.importNewsData()
-    this.importProductData("AAPL")
+    // this.importProductData("AAPL")
     this.importCompanyData()
     if (localStorage.token) {
       this.handleValidation()

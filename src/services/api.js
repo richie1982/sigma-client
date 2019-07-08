@@ -1,8 +1,6 @@
 const baseUrl = 'http://localhost:3000'
 const alphaUrl = 'https://www.alphavantage.co/query?'
 const alphaAPIKey = 'SZ3EMK9594ZWZ6WJ'
-const timeSeriesIntraDay = 'TIME_SERIES_INTRADAY'
-const fxIntraDay = 'FX_INTRADAY'
 const iexAPIKey =  '?token=pk_0cdead94812d4aec884c10e4cc744ddb'
 const newsUrl = 'http://webhose.io/filterWebContent?token=8a523f8c-d197-449c-9d80-bcc5fb1b6924&format=json&ts=1562166299528&sort=published&q=markets%20language%3Aenglish%20site_type%3Anews%20site_category%3Afinancial_news'
 const bloombergUrl ='https://bloomberg-market-and-financial-news.p.rapidapi.com/stories/list?template=CURRENCY&id=gbpusd'
@@ -69,10 +67,26 @@ export const validate = () => {
     }).then(resp => resp.json())
 }
 
-export const fetchData = (ticker) => {
-    return fetch(alphaUrl + 'function=' + timeSeriesIntraDay + '&symbol=' + ticker + '&interval=1min&apikey=' + alphaAPIKey)
+export const fetchIntraDayData = async (ticker) => {
+    return await fetch(alphaUrl + 'function=TIME_SERIES_INTRADAY&symbol=' + ticker + '&interval=1min&apikey=' + alphaAPIKey)
         .then(resp => resp.json())
 }
+ 
+export const fetchCalenderData = async (ticker, timeSeries) => {
+    return await fetch(alphaUrl + 'function=' + timeSeries + '&symbol=' + ticker + '&apikey=' + alphaAPIKey)
+        .then(resp => resp.json())
+}
+
+export const fetchFXRate = async (n1, n2) => {
+    return await fetch(alphaUrl + 'function=CURRENCY_EXCHANGE_RATE&from_currency=' + n1 + '&to_currency=' + n2 + '&apikey=' + alphaAPIKey)
+        .then(resp => resp.json())
+}
+
+export const fetchFXHist = async (n1, n2, timeSeries) => {
+    return await fetch(alphaUrl + 'function=' + timeSeries + '&from_symbol=' + n1 + '&to_symbol=' + n2 + '&apikey=' + alphaAPIKey)
+    .then(resp => resp.json())
+}
+
 
 export const fetchCompany = () => {
     return fetch('https://cloud.iexapis.com/stable/ref-data/symbols' + iexAPIKey)
@@ -105,6 +119,6 @@ export const fetchData2 = async (query) => {
     // .then(data => console.log(data))
 }
 
-window.fetchData1 = fetchData1
+window.fetchFXRate = fetchFXRate
 window.fetchData2 = fetchData2
 window.saveProduct = saveProduct

@@ -38,7 +38,7 @@ export function filterCompanies(searchTerm) {
     return {type: 'FILTER_COMPANIES', payload: searchTerm }
 }
 
-export function getData(data) {
+export function getProductData(data) {
     return { type: 'GET_DATA', payload: data }
 }
 
@@ -51,18 +51,11 @@ export function getNews(data) {
     return { type: 'GET_NEWS', payload: filteredNews }
 }
 
-export function updateInventory(data) {
-    return { type: 'SET_INVENTORY', payload: data }
+export function setDailyData(data) {
+    return { type: 'SET_DAILY', payload: data }
 }
 
-export function setLayout(data) {
-    return { type: "SET_LAYOUT", payload: data }
+export function setWeeklyData(data) {
+    return { type: 'SET_WEEKLY', payload: data }
 }
 
-export function updateLayout(data) {
-    return { type: 'UPDATE_LAYOUT', payload: data }
-}
-
-export function removeLayout(data) {
-    return { type: 'REMOVE_LAYOUT', payload: data }
-}

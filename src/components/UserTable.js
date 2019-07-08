@@ -37,7 +37,7 @@ const UserTable = (props) => {
   const [ layout, setLayout] = useState([
     {i: 'a', x: 0, y: 0, w: 3, h: 4.2, minH: 3.8},
     {i: 'b', x: 5, y: 0, w: 3, h: 4.5, isResizable: false},
-    {i: 'c', x: 0, y: 5, w: 3, h: 3.5, minH: 3, isResizable: false}, 
+    {i: 'c', x: 0, y: 5, w: 3, h: 3.75, minH: 3, isResizable: false}, 
   ])
 
   const [ open, setOpen ] = useState(false)

@@ -74,23 +74,19 @@ const selectedProductReducer = (state = "", action ) => {
     }
 }
 
-const updatedInventoryReducer = ( state = [], action ) => {
+const setDailyDataReducer = (state = null, action ) => {
     switch(action.type) {
-        case 'SET_INVENTORY':
-            return [...state, ...action.payload ]
+        case 'SET_DAILY':
+            return state = action.payload
         default:
             return state
     }
 }
 
-const gridLayoutReducer = ( state = [], action ) => {
+const setWeeklyDataReducer = (state = null, action ) => {
     switch(action.type) {
-        case 'SET_LAYOUT':
-            return [...state, ...action.payload ]
-        case 'UPDATE_LAYOUT':
-            return [...state, action.payload]
-        case 'REMOVE_LAYOUT':
-            return state.filter(el => el.i !== action.payload.i)
+        case 'SET_WEEKLY':
+            return state = action.payload
         default:
             return state
     }
@@ -104,8 +100,8 @@ const rootReducer = combineReducers({
     productData: productDataReducer,
     newsData: newsDataReducer,
     selectedProduct: selectedProductReducer,
-    updatedInventory: updatedInventoryReducer,
-    layout: gridLayoutReducer
+    dailyData: setDailyDataReducer,
+    weeklyData: setWeeklyDataReducer,
 })
 
 export default rootReducer
