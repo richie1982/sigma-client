@@ -32,8 +32,12 @@ const SearchResults = (props) => {
         .then(data => {
           fetchData2(data.ticker)
             .then(stock => {
-              let newProduct = Object.assign(data, stock)
-              props.addInventory(newProduct)
+              if (!props.inventory.find(el => el.id === data.id)) {
+                let newProduct = Object.assign(data, stock)
+                props.addInventory(newProduct)
+              } else {
+                alert("Stock already in inventory")
+              }
             })
         })
   }
@@ -80,8 +84,8 @@ const SearchResults = (props) => {
 
 const mapStateToProps = (state) => ({
     user: state.user,
-    inventory: state.inventory.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []),
-    companies: state.companies.slice(1, 100).filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
+    inventory: state.inventory,
+    companies: state.companies.slice(1, 1000).filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
   })
   
 export default connect(mapStateToProps, actions)(SearchResults)

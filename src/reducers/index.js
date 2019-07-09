@@ -16,12 +16,18 @@ const inventoryReducer = (state = [], action) => {
         case "GET_INVENTORY":
             return [...state, ...action.payload]
         case 'ADD_INVENTORY':  
-        // debugger
             return [...state, action.payload]
         case "REMOVE_INVENTORY":
             return state.filter(el => el.id !== action.payload.product_id)
         case 'CLEAR_INVENTORY':
             return state = []
+        case 'UPDATE_DATA':
+            return state.map((item) => {
+                if (item.id !== action.payload.id) {
+                    return item
+                }
+                return {...item, ...action.payload }
+            })
         default:
             return state
     }
@@ -65,7 +71,7 @@ const newsDataReducer = (state = [], action) => {
     }
 }
 
-const selectedProductReducer = (state = "", action ) => {
+const selectedProductReducer = (state = null, action ) => {
     switch(action.type) {
         case 'SELECT_PRODUCT':
             return state = action.payload

@@ -61,8 +61,8 @@ export const deleteProduct = (id) => {
     }).then(resp => resp.json())
 }
 
-export const validate = () => {
-    return fetch(baseUrl + '/validate', {
+export const validate = async () => {
+    return await fetch(baseUrl + '/validate', {
         headers: { 'Authorisation': localStorage.token }
     }).then(resp => resp.json())
 }

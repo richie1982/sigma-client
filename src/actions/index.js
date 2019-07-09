@@ -22,6 +22,10 @@ export function clearInventory() {
     return { type: "CLEAR_INVENTORY" }
 }
 
+export function updateInventoryData(data) {
+    return { type: 'UPDATE_DATA', payload: data }
+}
+
 export function getCompanies(data) {
     return { type: 'GET_COMPANIES', payload: data }
 }

@@ -67,17 +67,6 @@ export function LogInForm(props) {
     setEmail('')
     setPassword('')
   }
-
-  const setInventory = () => {
-    fetchInventory()
-        .then(data => {
-            if (data.error) {
-                alert(data.error)
-            } else {
-                props.getInventory(data)
-            }
-        })  
-  }
   
   const classes = useStyles();
 
@@ -93,7 +82,7 @@ export function LogInForm(props) {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form}>
             <TextField
               variant="outlined"
               margin="normal"

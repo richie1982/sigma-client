@@ -54,8 +54,8 @@ const SignUpForm = (props) =>  {
     e.preventDefault()
     signUp(firstName, lastName, email, password)
     .then(data => {
-        if (data.error) {
-            alert(data.error)
+        if (data.errors) {
+            alert(data.errors)
         } else {
             props.getUser(data)
             localStorage.setItem('token', data.token)

@@ -39,6 +39,15 @@ export class App extends Component {
         })
   }
 
+  updateInventoryData = () => {
+    this.props.inventory.map(product => {
+      fetchData2(product.ticker)
+        .then(stock => {
+          this.props.updateInventoryData(stock)
+        })
+    })
+  }
+
   importCompanyData = () => {
     fetchCompany()
       .then(data => {
@@ -77,11 +86,13 @@ export class App extends Component {
         .then(data => {
           if (data.error) {
             alert(data.error)
+            localStorage.removeItem('token')
           } else {
             this.props.getUser(data)
             localStorage.setItem('token', data.token)
             this.props.history.push('/landing')
             this.setInventory()
+
           }
         })   
   }
@@ -93,13 +104,26 @@ export class App extends Component {
     this.props.history.push('/')
   }
 
-  componentDidMount() {
+  handleNewsFetch = () => {
     this.importNewsData()
-    // this.importProductData("AAPL")
-    this.importCompanyData()
+    setInterval(() => {
+      this.importNewsData()
+    }, 600000)
+  }
+
+  componentDidMount() {
     if (localStorage.token) {
       this.handleValidation()
+      // this.handleNewsFetch()
+      // this.importCompanyData()
+      this.handleInventoryInterval = setInterval(() => {
+        this.updateInventoryData()
+      }, 30000)
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.handleInventoryInterval)
   }
 
   render () {

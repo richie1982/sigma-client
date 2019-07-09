@@ -237,7 +237,8 @@ const DataTable = (props) => {
 
   // const [ selectedProduct, setSelectedProduct ] = useState("")
   
-  const importProductData = (ticker) => {
+  const importProductData = (ticker, product) => {
+      props.selectProduct(product)
       fetchIntraDayData(ticker)
         .then(data => {
           if (data.error) {
@@ -310,7 +311,7 @@ const DataTable = (props) => {
                       key={row.name}
                       // selected={isItemSelected}
                     >
-                      <TableCell style={{color: "#f2e6d9"}} onClick={() => importProductData(row.symbol)} component="th" id={labelId} scope="row" padding="1px">
+                      <TableCell style={{color: "#f2e6d9"}} onClick={() => importProductData(row.symbol, row)} component="th" id={labelId} scope="row" padding="1px">
                         {row.name}
                       </TableCell>
                       <TableCell align="left" style={{color: "#f2e6d9"}}>{row.symbol}</TableCell>

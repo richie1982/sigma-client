@@ -1,4 +1,4 @@
-import React, { useState, useEffect }from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 import Plot from 'react-plotly.js';
@@ -20,7 +20,7 @@ const Graph = (props) => {
         },
         layout: {
             title: { 
-                text: 'Graph',
+                text: `${props.selectedProduct && props.selectedProduct.symbol}`,
                 textAlign: 'left',
                 font: {
                     color: '#f2f2f2'
@@ -111,12 +111,12 @@ const Graph = (props) => {
     } 
 
     const handleLoadSpinner = () => {
-        props.productData &&
+        // props.productData &&
             setLoading(false)
     }
 
     useEffect(() => {
-        handleLoadSpinner()
+        setTimeout(() => {handleLoadSpinner()}, 1500)
     }, [])
 
     const { productData } = props
@@ -138,6 +138,9 @@ const Graph = (props) => {
                 />
             </div> 
             : <div>
+            { !props.selectedProduct
+            ? <div><h2>No Product selected...</h2></div>
+             :   <div>
             <FormControl className={null}>
                 <Select
                 value={props.timeSeries}
@@ -159,12 +162,16 @@ const Graph = (props) => {
                 useResizeHandler={true}
             />
             </div>
+            }
+
+            </div>
         }
      </div>     
     )
 }
 
 const mapStateToProps = state => ({
+    selectedProduct: state.selectedProduct,
     productData: state.productData,
     dailyData: state.dailyData,
     weeklyData: state.weeklyData,
