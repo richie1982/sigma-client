@@ -97,9 +97,20 @@ export class App extends Component {
         })   
   }
 
+  clearRedux = () => {
+    this.props.clearInventory()
+    this.props.clearCompanies()
+    this.props.clearSearch()
+    this.props.clearProductData()
+    this.props.clearProduct()
+    this.props.clearNews()
+    this.props.clearDailyData()
+    this.props.clearWeeklyData()
+  }
+
   handleSignOut = () => {
     this.props.signOut()
-    this.props.clearInventory()
+    this.clearRedux()
     localStorage.removeItem('token')
     this.props.history.push('/')
   }

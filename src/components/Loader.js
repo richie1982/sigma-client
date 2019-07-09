@@ -27,12 +27,12 @@ export const Loader = () => {
   return (
     <div>
       <CircularProgress className={classes.progress} variant="determinate" value={progress} />
-      <CircularProgress
+      {/* <CircularProgress
         className={classes.progress}
         variant="determinate"
         value={progress}
         color="secondary"
-      />
+      /> */}
     </div>
   );
 }

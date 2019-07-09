@@ -183,7 +183,8 @@ const DataTable = (props) => {
   const invt = props.inventory.map(product => createData(product.name, product.ticker, product.id, product.latestPrice, product.close))
   const rows = invt.filter((item, index) => invt.indexOf(item === index))
 
-  const handleDeleteRow = (id) => {
+  const handleDeleteRow = (e, id) => {
+      e.preventDefault()
       deleteProduct(id)
         .then(product => props.removeInventory(product))
   }
@@ -321,7 +322,7 @@ const DataTable = (props) => {
                       </TableCell>
                       <TableCell align="right" style={{color: "#f2e6d9"}}>{row.close}</TableCell>
                       <TableCell align="right" >
-                      <div className={classes.actions} onClick={() => handleDeleteRow(row.id)}>
+                      <div className={classes.actions} onClick={(e) => handleDeleteRow(e, row.id)}>
                         <Tooltip title="Delete">
                           <IconButton aria-label="Delete" style={{color: "#f2f2f2"}}>
                             <DeleteIcon />

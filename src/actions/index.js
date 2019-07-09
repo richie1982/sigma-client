@@ -30,6 +30,10 @@ export function getCompanies(data) {
     return { type: 'GET_COMPANIES', payload: data }
 }
 
+export function clearCompanies() {
+    return { type: 'CLEAR_COMPANIES' }
+}
+
 export function updateSearch(searchTerm) {
     return { type: 'UPDATE_SEARCH', payload: searchTerm }
 }
@@ -46,8 +50,16 @@ export function getProductData(data) {
     return { type: 'GET_DATA', payload: data }
 }
 
+export function clearProductData() {
+    return { type: 'CLEAR_PRODUCT_DATA' }
+}
+
 export function selectProduct(product) {
     return { type: 'SELECT_PRODUCT', payload: product }
+}
+
+export function clearProduct() {
+    return { type: 'CLEAR_PRODUCT' }
 }
 
 export function getNews(data) {
@@ -55,11 +67,23 @@ export function getNews(data) {
     return { type: 'GET_NEWS', payload: filteredNews }
 }
 
+export function clearNews() {
+    return { type: 'CLEAR_NEWS' }
+}
+
 export function setDailyData(data) {
     return { type: 'SET_DAILY', payload: data }
 }
 
+export function clearDailyData() {
+    return { type: 'CLEAR_DAILY_DATA' }
+}
+
 export function setWeeklyData(data) {
     return { type: 'SET_WEEKLY', payload: data }
+}
+
+export function clearWeeklyData() {
+    return { type: 'CLEAR_WEEKLY_DATA' }
 }
 

@@ -37,6 +37,8 @@ const companyReducer = (state = [], action) => {
     switch(action.type) {
         case "GET_COMPANIES":
             return [...state, ...action.payload]
+        case 'CLEAR_COMPANIES':
+            return state = []
         default:
             return state
     }
@@ -57,6 +59,8 @@ const productDataReducer = (state = null, action) => {
     switch(action.type) {
         case 'GET_DATA':
             return state = action.payload
+        case 'CLEAR_PRODUCT_DATA':
+            return state = []
         default:
             return state
     }
@@ -66,6 +70,8 @@ const newsDataReducer = (state = [], action) => {
     switch(action.type) {
         case 'GET_NEWS':
             return [...state, ...action.payload]
+        case 'CLEAR_NEWS':
+            return state = []
         default:
             return state
     }
@@ -75,6 +81,8 @@ const selectedProductReducer = (state = null, action ) => {
     switch(action.type) {
         case 'SELECT_PRODUCT':
             return state = action.payload
+        case 'CLEAR_PRODUCT':
+                return state = []
         default:
             return state
     }
@@ -84,6 +92,8 @@ const setDailyDataReducer = (state = null, action ) => {
     switch(action.type) {
         case 'SET_DAILY':
             return state = action.payload
+        case 'CLEAR_DAILY_DATA':
+            return state = []
         default:
             return state
     }
@@ -93,6 +103,8 @@ const setWeeklyDataReducer = (state = null, action ) => {
     switch(action.type) {
         case 'SET_WEEKLY':
             return state = action.payload
+        case 'CLEAR_WEEKLY_DATA':
+                return state = []            
         default:
             return state
     }
