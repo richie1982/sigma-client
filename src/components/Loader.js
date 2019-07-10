@@ -26,7 +26,7 @@ export const Loader = () => {
 
   return (
     <div>
-      <CircularProgress className={classes.progress} variant="determinate" value={progress} />
+      <CircularProgress className={classes.progress} variant="determinate" value={progress} size={100} color={'secondary'}/>
       {/* <CircularProgress
         className={classes.progress}
         variant="determinate"

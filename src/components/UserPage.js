@@ -4,7 +4,6 @@ import * as actions from '../actions'
 import UserTable from './UserTable'
 
 const pageStyle = {
-    backgroundColor: '#666666',
     margin: 0
 }
 

@@ -9,6 +9,15 @@ import InputLabel from '@material-ui/core/InputLabel';
 import ClipLoader from 'react-spinners/ClipLoader'
 import Loader from './Loader'
 
+const loaderStyle = {
+    position: 'relative', 
+    marginTop: '100px', 
+    width: '100%', 
+    textAlign: 'center', 
+    display: 'block', 
+    height: 'auto'
+}
+
 const Graph = (props) => {
 
     const [ loading, setLoading ] = useState(true)
@@ -133,14 +142,8 @@ const Graph = (props) => {
       return (
      <div>
         {loading
-            ? <div className='sweet-loading'>
-                <ClipLoader
-                    css={null}
-                    sizeUnit={"px"}
-                    size={150}
-                    color={'blue'}
-                    loading={loading}
-                />
+            ? <div style={loaderStyle}>
+                <Loader/>
             </div> 
             : <div>
             { !props.selectedProduct

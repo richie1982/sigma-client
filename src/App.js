@@ -125,8 +125,8 @@ export class App extends Component {
   componentDidMount() {
     if (localStorage.token) {
       this.handleValidation()
-      // this.handleNewsFetch()
-      // this.importCompanyData()
+      this.handleNewsFetch()
+      this.importCompanyData()
       // this.handleInventoryInterval = setInterval(() => {
       //   this.updateInventoryData()
       // }, 30000)

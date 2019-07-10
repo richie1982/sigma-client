@@ -103,7 +103,7 @@ const NavBar = (props) =>  {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{margin: '0'}}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
