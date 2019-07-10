@@ -127,9 +127,9 @@ export class App extends Component {
       this.handleValidation()
       // this.handleNewsFetch()
       // this.importCompanyData()
-      this.handleInventoryInterval = setInterval(() => {
-        this.updateInventoryData()
-      }, 30000)
+      // this.handleInventoryInterval = setInterval(() => {
+      //   this.updateInventoryData()
+      // }, 30000)
     }
   }
 

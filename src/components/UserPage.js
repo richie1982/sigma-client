@@ -8,9 +8,6 @@ const pageStyle = {
     margin: 0
 }
 
-
-
-
 export const UserPage = (props) => {
 
     return (
@@ -23,7 +20,6 @@ export const UserPage = (props) => {
         </div>
     )
 }
-
 
 const mapStateToProps = (state) => ({
     user: state.user,

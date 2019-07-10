@@ -60,7 +60,7 @@ const productDataReducer = (state = null, action) => {
         case 'GET_DATA':
             return state = action.payload
         case 'CLEAR_PRODUCT_DATA':
-            return state = []
+            return state = null
         default:
             return state
     }
@@ -82,7 +82,7 @@ const selectedProductReducer = (state = null, action ) => {
         case 'SELECT_PRODUCT':
             return state = action.payload
         case 'CLEAR_PRODUCT':
-                return state = []
+                return state = null
         default:
             return state
     }
@@ -93,7 +93,7 @@ const setDailyDataReducer = (state = null, action ) => {
         case 'SET_DAILY':
             return state = action.payload
         case 'CLEAR_DAILY_DATA':
-            return state = []
+            return state = null
         default:
             return state
     }
@@ -104,7 +104,7 @@ const setWeeklyDataReducer = (state = null, action ) => {
         case 'SET_WEEKLY':
             return state = action.payload
         case 'CLEAR_WEEKLY_DATA':
-                return state = []            
+                return state = null            
         default:
             return state
     }

@@ -7,6 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import ClipLoader from 'react-spinners/ClipLoader'
+import Loader from './Loader'
 
 const Graph = (props) => {
 
@@ -20,7 +21,7 @@ const Graph = (props) => {
         },
         layout: {
             title: { 
-                text: `${props.selectedProduct && props.selectedProduct.symbol}`,
+                text: `${props.selectedProduct ? props.selectedProduct.symbol :'No Product Selected' }`,
                 textAlign: 'left',
                 font: {
                     color: '#f2f2f2'
@@ -65,13 +66,15 @@ const Graph = (props) => {
     }
 
     const handleData = (data) => {
+        // debugger
         if (data) {
             const dataKeys = Object.keys(data['Time Series (1min)'])
             const dataValues = Object.values(data['Time Series (1min)'])
             const closePrice = dataValues.map(value => value['4. close'])
             setGraph({data: [{ x: dataKeys, y: closePrice, type: 'scatter', line: { color: '#17BECF'} }]})
-        
-        } 
+        } else {
+            setGraph( {data: [{x: 0, y: 0, }]} )
+        }
     }   
 
     const handleDailyData = (data) => {
@@ -122,7 +125,9 @@ const Graph = (props) => {
     const { productData } = props
 
     useEffect(() => {
-        handleData(productData)
+        if (!!productData) {
+            handleData(productData)
+        }
     }, [productData])
 
       return (
