@@ -145,9 +145,6 @@ const Graph = (props) => {
                 <Loader/>
             </div> 
             : <div>
-            { !props.selectedProduct
-            ? <div><h2>No Product selected...</h2></div>
-             :   <div>
             <FormControl className={null}>
                 <Select
                 value={props.timeSeries}
@@ -168,9 +165,6 @@ const Graph = (props) => {
                 layout= {config.layout} 
                 useResizeHandler={true}
             />
-            </div>
-            }
-
             </div>
         }
      </div>     

@@ -165,7 +165,7 @@ const NewsTable = (props) => {
           <TableBody>
             {rows.filter(el => el.title.length > 0).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
               <TableRow key={row.uuid}>
-                <TableCell style={{color: "#f2f2f2"}} component="th" scope="row" onClick={() => props.handleNewsModal(row.text)}>
+                <TableCell style={{color: "#f2f2f2"}} component="th" scope="row" onClick={() => props.handleNewsModal(row)}>
                   {
                     row.title.length > 0
                   ? row.title

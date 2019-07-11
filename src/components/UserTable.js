@@ -37,7 +37,7 @@ const UserTable = (props) => {
   const [ layout, setLayout] = useState([
     {i: 'a', x: 0, y: 0, w: 3, h: 4.2, minH: 3.8},
     {i: 'b', x: 5, y: 0, w: 3, h: 4.5, isResizable: false},
-    {i: 'c', x: 0, y: 5, w: 3, h: 3.75, minH: 3, isResizable: false}, 
+    {i: 'c', x: 0, y: 5, w: 3, h: 4.5, minH: 3, isResizable: false}, 
   ])
 
   const [ open, setOpen ] = useState(false)
@@ -49,7 +49,7 @@ const UserTable = (props) => {
 
   const handleNewsModal = (text) => {
     setContent(text)
-    layout.find(el => el.i === 'd') 
+    !!layout.find(el => el.i === 'd') 
       ? setLayout([...layout])
       : setLayout([...layout, {i: 'd', x: 3, y: 5, w: 3, h: 1, minH: 3}])
     setOpen(true)
@@ -83,10 +83,11 @@ const UserTable = (props) => {
             contentStyle={modalStyle}
           >
             <div className="modal" >
-              <a className="close" onClick={closeNewsModal} >
+              <h3 > {content.title} </h3>
+              <a className="close" onClick={closeNewsModal}>
                 &times;
               </a>
-              {content}
+              {content.text}
             </div>
           </Popup>
         </div>
