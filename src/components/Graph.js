@@ -6,6 +6,7 @@ import Select from '@material-ui/core/Select'
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
+import { makeStyles } from '@material-ui/core/styles';
 import Loader from './Loader'
 
 const loaderStyle = {
@@ -17,7 +18,28 @@ const loaderStyle = {
     height: 'auto'
 }
 
+const useStyles = makeStyles(theme => ({
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      color: 'white'
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 90,
+    },
+    icon: {
+        color: 'white !important',
+
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  }));
+
 const Graph = (props) => {
+
+    const classes = useStyles()
 
     const [ loading, setLoading ] = useState(true)
     const [ timeSeries, setTimeSeries ] = useState('TIME_SERIES_INTRADAY')
@@ -145,8 +167,14 @@ const Graph = (props) => {
                 <Loader/>
             </div> 
             : <div>
-            <FormControl className={null}>
+            <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="timeSeries"
+                style={{color: 'white'}}>
+                Display
+                </InputLabel>
+                {/* <IconComponent></IconComponent> */}
                 <Select
+                className={classes.icon}
                 value={props.timeSeries}
                 onChange={handleTimeSeries}
                 inputProps={{
@@ -171,12 +199,12 @@ const Graph = (props) => {
     )
 }
 
-const mapStateToProps = state => ({
-    selectedProduct: state.selectedProduct,
-    productData: state.productData,
-    dailyData: state.dailyData,
-    weeklyData: state.weeklyData,
-    timeSeries: state.timeSeries
+const mapStateToProps = ({selectedProduct, productData, dailyData, weeklyData, timeSeries}) => ({
+    selectedProduct: selectedProduct,
+    productData: productData,
+    dailyData: dailyData,
+    weeklyData: weeklyData,
+    timeSeries: timeSeries
 })
 
 export default connect(mapStateToProps, actions)(Graph)

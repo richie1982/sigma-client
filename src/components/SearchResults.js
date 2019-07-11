@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     overflowX: 'auto',
+    backgroundColor: 'grey',
   },
   table: {
     minWidth: 450,
@@ -44,7 +45,7 @@ const SearchResults = (props) => {
 
   // 
 
-  const rows = props.companies.map(company => createData(company.name, company.symbol))
+  const rows = props.companies.map(company => createData(company.name, company.symbol)).slice(0, 5)
 
   const classes = useStyles();
 
@@ -53,23 +54,24 @@ const SearchResults = (props) => {
       {/* <button onClick={closeTab}>x</button> */}
       <Table className={classes.table}>
         <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell align="left">Symbol</TableCell>
-            <TableCell align="left">Add</TableCell>
+          <TableRow >
+            <TableCell style={{color: 'white'}}>Name</TableCell>
+            <TableCell align="left" style={{color: 'white'}}>Symbol</TableCell>
+            <TableCell align="left" style={{color: 'white'}}>Add</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
             <TableRow key={index}>
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" style={{color: 'white'}}>
                 {row.name}
               </TableCell>
-              <TableCell align="left">{row.symbol}</TableCell>
-              <TableCell align="left">
+              <TableCell align="left" style={{color: 'white'}}>{row.symbol}</TableCell>
+              <TableCell align="left" >
                   <button onClick={(e) => {
                     e.preventDefault()
-                    handleSaveToInventory(row.name, row.symbol, props.user.email)}}
+                    handleSaveToInventory(row.name, row.symbol, props.user.email)
+                    }}
                     >
                   SAVE
                   </button>
@@ -85,7 +87,7 @@ const SearchResults = (props) => {
 const mapStateToProps = (state) => ({
     user: state.user,
     inventory: state.inventory,
-    companies: state.companies.slice(1, 1000).filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
+    companies: state.companies.filter(company => company.name.toLowerCase().includes(state.searchTerm.toLowerCase()))
   })
   
 export default connect(mapStateToProps, actions)(SearchResults)

@@ -22,7 +22,7 @@ const NavBar2 = (props) => {
         width: 'auto',
         display: 'flex',
         height: '150px',
-        position: 'sticky',
+        position: 'fixed',
         justifyContent: 'flex-start'
     }
 

@@ -36,7 +36,7 @@ const UserTable = (props) => {
   const [ content, setContent ] = useState('')
   const [ layout, setLayout] = useState([
     {i: 'a', x: 0, y: 0, w: 3, h: 4.2, minH: 3.8},
-    {i: 'b', x: 5, y: 0, w: 3, h: 4.5, isResizable: false},
+    {i: 'b', x: 5, y: 0, w: 3, h: 4.8, isResizable: false},
     {i: 'c', x: 0, y: 5, w: 3, h: 4.5, minH: 3, isResizable: false}, 
   ])
 
@@ -96,8 +96,8 @@ const UserTable = (props) => {
 }
 
 const mapStateToProps = state => ({
-  searchTerm: state.searchTerm,
+  // searchTerm: state.searchTerm,
   // gridLayout: state.layout
 })
 
-export default connect(mapStateToProps, actions)(UserTable);
+export default connect(null, actions)(UserTable);

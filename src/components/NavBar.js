@@ -12,6 +12,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import Clock from 'react-live-clock';
+import SearchPopUp from './SearchPopUp'
 
 
 
@@ -85,6 +86,7 @@ const NavBar = (props) =>  {
   const classes = useStyles();
   const [ searchParam, setSearchParam ] = useState("")
   const [ open, setOpen ] = useState(false)
+  const [ anchorEl, setAnchorEl ] = useState(null)
   
   const searchHandle = (e) => {
     setSearchParam(e.target.value)
@@ -92,13 +94,16 @@ const NavBar = (props) =>  {
 
   const handleSearch = (e) => {
     e.preventDefault()
+    setAnchorEl(e.currentTarget)
     setOpen(true)
     props.updateSearch(searchParam)
     setSearchParam("")
   }
 
-  const closeModal = () => {
+  const handleClose = () => {
     setOpen(false)
+    setAnchorEl(null)
+    props.clearSearch()
   }
 
   return (
@@ -121,12 +126,13 @@ const NavBar = (props) =>  {
               <Link to='/' style ={buttonStyle} onClick={props.handleSignOut}>Sign Out</Link>
 
           </Typography> */}
+          <Typography style={{padding: '10px', fontStyle: 'italic'}}>
           {'London, UK: '}
+          </Typography>
           <Clock
             format={'h:mm:ssa'}
             ticking={true}
           />
-          <Typography></Typography>
           {props.user &&
             <form className={classes.search} onSubmit={handleSearch}>
               <div className={classes.searchIcon}>
@@ -142,7 +148,8 @@ const NavBar = (props) =>  {
                 }}
                 inputProps={{ 'aria-label': 'Search' }}
               />
-              <Popup
+              <SearchPopUp open={open} anchorEl={anchorEl} handleClose={handleClose}/>
+              {/* <Popup
                 open={open}
                 closeOnDocumentClick
                 onClose={closeModal}
@@ -152,7 +159,7 @@ const NavBar = (props) =>  {
                 <span>
                 <SearchResults />
                 </span>
-              </Popup>
+              </Popup> */}
             </form>
           }
         </Toolbar>

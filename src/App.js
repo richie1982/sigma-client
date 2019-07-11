@@ -124,10 +124,10 @@ export class App extends Component {
   }
 
   componentDidMount() {
+    // this.handleNewsFetch()
+    this.importCompanyData()
     if (localStorage.token) {
       this.handleValidation()
-      this.handleNewsFetch()
-      this.importCompanyData()
       // this.handleInventoryInterval = setInterval(() => {
       //   this.updateInventoryData()
       // }, 30000)
@@ -140,7 +140,7 @@ export class App extends Component {
 
   render () {
     return (
-      <div>
+      <>
         {/* <NavBar handleSignOut={this.handleSignOut}/> */}
         <Switch>
           <Route exact path='/' component={props => <HomePage2  {...props}/>} />
@@ -148,7 +148,7 @@ export class App extends Component {
           <Route path='/log_in' component={props => <LogInForm setInventory={this.setInventory} {...props} />}/>
           <Route path='/landing' component={props => <UserPage handleSignOut={this.handleSignOut} {...props}/>}/>
         </Switch>
-      </div>
+      </>
     );
   }
 }
