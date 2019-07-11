@@ -14,7 +14,8 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-import { ClipLoader	 } from 'react-spinners';
+import Loader from './Loader'
+import { TableHead } from '@material-ui/core';
 
 const useStyles1 = makeStyles(theme => ({
   root: {
@@ -112,10 +113,15 @@ const NewsTable = (props) => {
       setLoading(false) 
   }
 
-  // const handleNewsModal = (text) => {
-  //   props.setContent(text)
-  //   props.setOpen(true)
-  // }
+  const loaderStyle = {
+    position: 'relative', 
+    marginTop: '100px', 
+    width: '100%', 
+    textAlign: 'center', 
+    display: 'block', 
+    height: 'auto',
+    backgroundColor: "#3e4444"
+}
   
   function handleChangePage(event, newPage) {
     setPage(newPage);
@@ -141,16 +147,21 @@ const NewsTable = (props) => {
   return (
     <Paper className={classes.root}>
     {loading
-        ?  <div>
-          <ClipLoader	
-          css={override}
-            color={'blue'}
-            loading={loading}
+        ? <div style={loaderStyle}>
+          <Loader	
               />
         </div>
-
       : <div className={classes.tableWrapper}>
         <Table className={classes.table}>
+          <TableHead>
+          <TableCell
+            align={'left'}
+            padding={'default'}
+            style={{color: "#f2f2f2", fontSize: '1em', fontStyle: 'italic'}}
+          >
+            News Headlines
+          </TableCell>
+          </TableHead>
           <TableBody>
             {rows.filter(el => el.title.length > 0).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
               <TableRow key={row.uuid}>
@@ -163,7 +174,6 @@ const NewsTable = (props) => {
                 </TableCell>
               </TableRow>
             ))}
-
             {emptyRows > 0 && (
               <TableRow style={{ height: 48 * emptyRows }}>
                 <TableCell colSpan={6} />
@@ -190,20 +200,6 @@ const NewsTable = (props) => {
             </TableRow>
           </TableFooter>
         </Table>
-        {/* <Popup
-          open={open}
-          closeOnDocumentClick
-          onClose={closeModal}
-          position={'right center'}
-          contentStyle={{width: 'auto', fontSize: '10px'}}
-        >
-          <div className="modal" >
-            <a className="close" onClick={closeModal} >
-              &times;
-            </a>
-            {content}
-          </div>
-        </Popup> */}
       </div>
     }
     </Paper>

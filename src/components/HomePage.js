@@ -3,11 +3,11 @@ import '../App.css'
 import Typography from '@material-ui/core/Typography';
 
 
-const imgStyle = {
+// const imgStyle = {
      
-    width: "50%", 
-    height: "100%",
-}
+//     width: "50%", 
+//     height: "100%",
+// }
 
 export const HomePage = props => {
 
@@ -42,7 +42,7 @@ export const HomePage = props => {
             <div style={imgStyle} className="bg"></div>
             <div style={textStyle}>
             <h1 style={{fontFamily: 'Yantramanav, sans-serif', textShadow: '2px 2px #595959', marginTop: '200px'}}>
-            Sigma</h1>
+            SIGMA</h1>
             <p style={{fontFamily: 'Oswald, sans-serif', color: '#f2f2f2'}}>real-time financial data</p>
             </div>
                 {/* <img src={filePath} alt={"home page"} style={imgStyle}/> */}

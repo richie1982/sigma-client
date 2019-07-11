@@ -6,7 +6,6 @@ import Select from '@material-ui/core/Select'
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-import ClipLoader from 'react-spinners/ClipLoader'
 import Loader from './Loader'
 
 const loaderStyle = {
@@ -22,7 +21,7 @@ const Graph = (props) => {
 
     const [ loading, setLoading ] = useState(true)
     const [ timeSeries, setTimeSeries ] = useState('TIME_SERIES_INTRADAY')
-    const [ graph, setGraph ] = useState(null)
+    const [ graph, setGraph ] = useState({data: [{x: 0, y: 0, }]})
     const [ config, setConfig ] = useState({
         style: {
             width: '100%',
@@ -30,7 +29,7 @@ const Graph = (props) => {
         },
         layout: {
             title: { 
-                text: `${props.selectedProduct ? props.selectedProduct.symbol :'No Product Selected' }`,
+                text: `${props.selectedProduct ? props.selectedProduct.symbol :'No Product Selected...' }`,
                 textAlign: 'left',
                 font: {
                     color: '#f2f2f2'

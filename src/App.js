@@ -2,12 +2,13 @@ import React, { Component} from 'react';
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import * as actions from './actions'
-import HomePage from './components/HomePage';
+import HomePage2 from './components/HomePage2';
 import LogInForm from './components/LogInForm'
 import UserPage from './components/UserPage';
 import { validate, fetchInventory, fetchCompany, fetchIntraDayData, fetchNews1, fetchData2 } from './services/api';
 import NavBar from './components/NavBar'
 import SignUpForm from './components/SignUpForm';
+import NavBar2 from './components/Navbar2';
 
 const pageStyle = {
   backgroundColor: 'grey',
@@ -140,12 +141,12 @@ export class App extends Component {
   render () {
     return (
       <div>
-        <NavBar handleSignOut={this.handleSignOut}/>
+        {/* <NavBar handleSignOut={this.handleSignOut}/> */}
         <Switch>
-          <Route exact path='/' component={props => <HomePage  {...props}/>} />
+          <Route exact path='/' component={props => <HomePage2  {...props}/>} />
           <Route path='/sign_up' component={props => <SignUpForm {...props}/>}/>
           <Route path='/log_in' component={props => <LogInForm setInventory={this.setInventory} {...props} />}/>
-          <Route path='/landing' component={props => <UserPage {...props}/>}/>
+          <Route path='/landing' component={props => <UserPage handleSignOut={this.handleSignOut} {...props}/>}/>
         </Switch>
       </div>
     );

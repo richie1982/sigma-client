@@ -4,15 +4,14 @@ import { Link } from 'react-router-dom'
 import * as actions from '../actions'
 import Popup from "reactjs-popup"
 import SearchResults from './SearchResults'
-
+import DropdownMenu from './DropdownMenu'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import Clock from 'react-live-clock';
 
 
 
@@ -106,23 +105,28 @@ const NavBar = (props) =>  {
     <div className={classes.root} style={{margin: '0'}}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+        <DropdownMenu handleSignOut={props.handleSignOut}/>
+          {/* <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="Open drawer"
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography className={classes.title} variant="h6" noWrap>
-            {!props.user
-              ? <div>
-              <Link to='/log_in' style ={buttonStyle}>{"Sign In  "}</Link> {"|"}
-              <Link to='/sign_up' style ={buttonStyle}>{"  Create Account"}</Link>
-              </div>
-              :<Link to='/' style ={buttonStyle} onClick={props.handleSignOut}>Sign Out</Link>
-              }
+          {!!props.user ? "Welcome " + props.user.first_name : null}
           </Typography>
+          {/* <Typography className={classes.title} variant="h6" noWrap>
+              <Link to='/' style ={buttonStyle} onClick={props.handleSignOut}>Sign Out</Link>
+
+          </Typography> */}
+          {'London, UK: '}
+          <Clock
+            format={'h:mm:ssa'}
+            ticking={true}
+          />
+          <Typography></Typography>
           {props.user &&
             <form className={classes.search} onSubmit={handleSearch}>
               <div className={classes.searchIcon}>
@@ -131,7 +135,7 @@ const NavBar = (props) =>  {
               <InputBase
                 value={searchParam}
                 onChange={searchHandle}
-                placeholder="Search…"
+                placeholder="Search Products…"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,

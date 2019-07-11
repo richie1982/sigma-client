@@ -76,7 +76,7 @@ const SignUpForm = (props) =>  {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Create Account
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSignUp}>
           <Grid container spacing={2}>
